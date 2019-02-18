@@ -4,6 +4,8 @@ try:
     import numpy as np
     import copy
     import sys
+    from math import *
+
 except:
     print("Unable to import some modules\nfunctions and classes might not work properly")
 
@@ -54,7 +56,7 @@ class LineElement():
         string += ", "+str(self.N2.ID)
         return string
 
-class PartMesh():
+class BeamMesh():
 
     def __init__(self,Namestr,ElemType,Radius,TypeStr,PosStr,NodeList=[],ElemList=[],Node0 = 1,Elem0 = 1):
         self.NodeList = []
@@ -118,8 +120,8 @@ class PartMesh():
 
 class EmbededBeam():
 
-    def __init__(self,PartMesh,BundleR,FilR):
-        self.source = copy.deepcopy(PartMesh)
+    def __init__(self,BeamMesh,BundleR,FilR):
+        self.source = copy.deepcopy(BeamMesh)
         self.BundleRadius = BundleR
         self.FilR = FilR
         self.OUT = copy.deepcopy(self.source)
@@ -134,10 +136,10 @@ class EmbededBeam():
             i.ID = Startcount+count
             count+=1
         if Config[1]=="Beam":
-            self.IN = PartMesh(self.source.Namestr+"IN","B31",self.FilR,Config[1],"IN",NodeList=NewNodeList,ElemList=[],Elem0 = self.source.MaxElemID+1)
+            self.IN = BeamMesh(self.source.Namestr+"IN","B31",self.FilR,Config[1],"IN",NodeList=NewNodeList,ElemList=[],Elem0 = self.source.MaxElemID+1)
             return self.OUT.InpPart()+self.IN.InpPart()
         if Config[1]=="Truss":
-            self.IN = PartMesh(self.source.Namestr+"IN","T3D2",self.FilR,Config[1],"IN",NodeList=NewNodeList,ElemList=[],Elem0 = self.source.MaxElemID+1)
+            self.IN = BeamMesh(self.source.Namestr+"IN","T3D2",self.FilR,Config[1],"IN",NodeList=NewNodeList,ElemList=[],Elem0 = self.source.MaxElemID+1)
             return self.OUT.InpPart()+self.IN.InpPart()
         if Config[1]==None:
             return self.OUT.InpPart()
@@ -178,6 +180,70 @@ class path:
             self.Ly.append(Cy*tTemp+Ay)
             self.Lz.append(Cz*tTemp+Az)
             tTemp +=tInc
+
+    def Init3DSinus(self,SinusMatrix,Lengh,NbPoints,Omega,Phi):
+        """
+            Équation paramétrique de la droite
+            {x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}
+
+            Équation du sinus:
+            définie en coordonées cylindriques autour de x
+            x -> x ; y -> r sin(theta) ; y -> r cos(theta)
+            {r = R0*sin(Omega*x+Phi), theta = Cth*x+Th0}
+
+
+            The Sinus matrix has to be defined as follows:
+
+            C. -> stiffness of the directional line over .
+            A. -> starting coordinate of the directional line over .
+            R0 -> max height of the sinus (in cylindrical coordinates)
+            Cth -> Rotation coefficient (to make swirls instead of sinus)
+            Th0 -> Angle to determine the orientation of the sinus
+
+
+        """
+
+        self.NbPoints = NbPoints
+        self.Lengh = Lengh
+        Cx = SinusMatrix[0][0]
+        Cy = SinusMatrix[0][1]
+        Cz = SinusMatrix[0][2]
+        Ax = SinusMatrix[1][0]
+        Ay = SinusMatrix[1][1]
+        Az = SinusMatrix[1][2]
+        R0 = SinusMatrix[2][0]
+        Cth = SinusMatrix[2][1]
+        Th0 = SinusMatrix[2][2]
+
+
+        # Increments, max and min of the "t" parameter
+        tMax = Lengh/(np.sqrt(Cx**2+Cy**2+Cz**2))
+        tMin = 0
+        tInc = tMax/(NbPoints-1)
+
+        #Generation of the tables
+        tTemp = 0
+        for i in range(NbPoints):
+            # X coordinate
+            self.Lx.append(Cx*tTemp+Ax)
+
+            # Y coordinate
+            LineContribution = Cy*tTemp+Ay
+            Rtemp = R0*sin(Omega*tTemp+Phi)
+            Thetatemp = Cth*tTemp + Th0
+            SinusContribution = Rtemp * sin(Thetatemp)
+            self.Ly.append(LineContribution + SinusContribution)
+
+            # Z coordinate
+            LineContribution = Cz*tTemp+Az
+            Rtemp = R0*sin(Omega*tTemp+Phi)
+            Thetatemp = Cth*tTemp + Th0
+            SinusContribution = Rtemp * cos(Thetatemp)
+            self.Lz.append(LineContribution + SinusContribution)
+
+            # Increment
+            tTemp +=tInc
+
 
 
 
@@ -417,9 +483,9 @@ class Braid:
                 #Mesh Generation
                 string = "BeamCCW"+str(k)
                 if Config[0] == "Truss":
-                    BeamList.append(PartMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                    BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
                 if Config[0] == "Beam":
-                    BeamList.append(PartMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                    BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
             else:
                 MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+1,R=self.R,YarnR=self.BundleR)
                 for i in range(len(MakeNodeListRes[0])):
@@ -429,9 +495,9 @@ class Braid:
                     #Mesh Generation
                     string = "BeamCCW"+str(k)+"_"+str(i)
                     if Config[0] == "Truss":
-                        BeamList.append(PartMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
                     if Config[0] == "Beam":
-                        BeamList.append(PartMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
 
         print("------------------------------------------------------------------\n------------------------CCW Beams Generated-----------------------")
         for k in range(int(self.Nby/2)):
@@ -443,9 +509,9 @@ class Braid:
                 #Mesh Generation
                 string = "BeamCW"+str(k)
                 if Config[0] == "Truss":
-                    BeamList.append(PartMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                    BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
                 if Config[0] == "Beam":
-                    BeamList.append(PartMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                    BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
             else:
                 MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=1000*k+1,R=self.R,YarnR=self.BundleR)
                 for i in range(len(MakeNodeListRes[0])):
@@ -455,9 +521,9 @@ class Braid:
                     #Mesh Generation
                     string = "BeamCW"+str(k)+"_"+str(i)
                     if Config[0] == "Truss":
-                        BeamList.append(PartMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
                     if Config[0] == "Beam":
-                        BeamList.append(PartMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
 
         if AddDummy == True:
                 self.inpString += CreateDummyString(1,0,0,0)

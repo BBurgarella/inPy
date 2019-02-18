@@ -40,7 +40,7 @@ def polar2cart(rho,phi):
 	y=rho*np.sin(phi)
 	return(x,y);
 
-def theta(i,Ri,Rt):
+def theta(i,Ri,Rt,angle,L,NbSeg):
     if angle == 0:
         return 0
     ## Gives the rotation angle of the base
@@ -58,60 +58,6 @@ def theta(i,Ri,Rt):
     elif (-(L/2)+(i*L/NbSeg))  >= (pi*(Ri+Rt)/angle):
         return (pi/angle)
 
-def fiberbasecoord(NbSeg,L,Ri,Rt,Rf,Phi0,Vr):
-## Gives the coordinate vector on the fiber
-## linear basis
-############################################
-##    xi linear coordinate on the fibre   ##
-##     Ri inner radius of the poulie      ##
-##      Rt radius of the fiber bundle     ##
-############################################
-    XList = []
-    YList = []
-    ZList = []
-    k=1
-#    print(int((pi*(Ri+Rt)/angle)))
-    for i in range(NbSeg+int((pi*(Ri+Rt)/angle)/(float(L)/float(NbSeg)))):
-        if (-(L/2)+(i*L/NbSeg)) <= 0:
-            XList.append(-(L/2)+(i*L/NbSeg))
-            YList.append(Rf*(math.sin(Phi0+Vr*(-(L/2)+(i*L/NbSeg)))))
-            ZList.append(Rf*(math.cos(Phi0+Vr*(-(L/2)+(i*L/NbSeg)))))
-        elif (-(L/2)+(i*L/NbSeg))  > 0 and (-(L/2)+(i*L/NbSeg))  < (pi*(Ri+Rt)/angle):
-            XList.append(0)
-            YList.append(Rf*(math.sin(Phi0+Vr*(-(L/2)+((i)*L/NbSeg)))))
-            ZList.append(Rf*(math.cos(Phi0+Vr*(-(L/2)+((i)*L/NbSeg)))))
-        elif (-(L/2)+(i*L/NbSeg))  >= (pi*(Ri+Rt)/angle):
-            XList.append((k*L/NbSeg))
-            YList.append(Rf*(math.sin(Phi0+Vr*(-(L/2)+(i*L/NbSeg)))))
-            ZList.append(Rf*(math.cos(Phi0+Vr*(-(L/2)+(i*L/NbSeg)))))
-            k+=1
-    return [XList,YList,ZList]
-
-def pouliebasecoord(CoordList,Ri,Rt,NoPenMargin):
-    XList = CoordList[0]
-    YList = CoordList[1]
-    ZList = CoordList[2]
-    XListPoulie = []
-    YListPoulie = []
-    ZListPoulie = []
-    for i in range(len(XList)):
-        tempVect = np.array([XList[i],YList[i]+(Ri+NoPenMargin),ZList[i]])
-        ThetaVal = theta(i,Ri,Rt)
-        if ThetaVal >= 0 and ThetaVal <= pi/2:
-           tempVect = np.array([XList[i],YList[i]+(Ri+NoPenMargin),ZList[i]])
-        #print(ThetaVal*(180/pi))
-        RotationMatrix = np.array([[math.cos(ThetaVal),-math.sin(ThetaVal),0],[math.sin(ThetaVal),math.cos(ThetaVal),0],[0,0,1]])
-        PoulieBaseVect = np.dot(tempVect,RotationMatrix)
-        XListPoulie.append(PoulieBaseVect[0])
-        YListPoulie.append(PoulieBaseVect[1])
-        ZListPoulie.append(PoulieBaseVect[2])
-    if Abaqus == 0:
-        plt.plot(XListPoulie,ZListPoulie, 'r')
-        plt.plot(XListPoulie,YListPoulie, 'r')
-        plt.xlim(-L/Zoom,L/Zoom)
-        plt.ylim(-L/Zoom,L/Zoom)
-        plt.show()
-    return [XListPoulie,YListPoulie,ZListPoulie]
 
 def circlespace(xC,yC,radius,n):
 	X=[];
