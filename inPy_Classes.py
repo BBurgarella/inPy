@@ -25,6 +25,37 @@ class ParametricLine:
     def MakeLinearMatrix(self):
         return np.array([self.VectorTuple,self.InterceptTuple])
 
+class Order3Base:
+
+    """
+    Used to store 3D linear algebra bases
+    three attribues: e1, e2 and e3, corresponding to the
+    three vectors
+
+    The vector given as entry will always be normalized
+
+    __getitem__() is defined so that you can call
+    an axis by its index or char reference (x, y or z)
+
+    """
+
+    def __init__(self,e1 = [1,0,0], e2 = [0,1,0], e3 = [0,0,1],BuildFromThis = False)
+        self.e1 = np.linalg.norm(e1)
+        if BuildFromThis:
+            self.e3 = np.linalg.norm(np.cross(self.e1,e2))
+            self.e2 = np.linalg.norm(np.cross(self.e1,self.e3))
+        else:
+            self.e2 = np.linalg.norm(e2)
+            self.e3 = np.linalg.norm(e3)
+
+    def __getitem__(self,i):
+        if i == "x" or i==0:
+            return self.e1
+        elif i == "y" or i == 1:
+            return self.e2
+        elif i == "z" or i == 2:
+            return self.e3
+
 
 ##################################
 #		Class definitions		 #
@@ -220,6 +251,10 @@ class path:
         tMin = 0
         tInc = tMax/(NbPoints-1)
 
+        Base1 =
+
+        RotMat = ExtractRotationMatrix(Base_1 = [Cx,Cy,Cz],Base_0 = None,Norm=True)
+
         #Generation of the tables
         tTemp = 0
         for i in range(NbPoints):
@@ -227,18 +262,16 @@ class path:
             self.Lx.append(Cx*tTemp+Ax)
 
             # Y coordinate
-            LineContribution = Cy*tTemp+Ay
             Rtemp = R0*sin(tTemp+Phi)
             Thetatemp = Cth*tTemp + Th0
             SinusContribution = Rtemp * sin(Thetatemp)
-            self.Ly.append(LineContribution + SinusContribution)
+            self.Ly.append(SinusContribution)
 
             # Z coordinate
-            LineContribution = Cz*tTemp+Az
             Rtemp = R0*sin(tTemp+Phi)
             Thetatemp = Cth*tTemp + Th0
             SinusContribution = Rtemp * cos(Thetatemp)
-            self.Lz.append(LineContribution + SinusContribution)
+            self.Lz.append(SinusContribution)
 
             # Increment
             tTemp +=tInc
