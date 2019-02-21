@@ -39,14 +39,14 @@ class Order3Base:
 
     """
 
-    def __init__(self,e1 = [1,0,0], e2 = [0,1,0], e3 = [0,0,1],BuildFromThis = False)
-        self.e1 = np.linalg.norm(e1)
+    def __init__(self, e1 = [1,0,0], e2 = [0,1,0], e3 = [0,0,1], BuildFromThis = False):
+        self.e1 = e1/np.linalg.norm(e1)
         if BuildFromThis:
-            self.e3 = np.linalg.norm(np.cross(self.e1,e2))
-            self.e2 = np.linalg.norm(np.cross(self.e1,self.e3))
+            self.e3 = np.cross(self.e1,e2)/np.linalg.norm(np.cross(self.e1,e2))
+            self.e2 = np.cross(self.e1,self.e3)/np.linalg.norm(np.cross(self.e1,self.e3))
         else:
-            self.e2 = np.linalg.norm(e2)
-            self.e3 = np.linalg.norm(e3)
+            self.e2 = e2/np.linalg.norm(e2)
+            self.e3 = e3/np.linalg.norm(e3)
 
     def __getitem__(self,i):
         if i == "x" or i==0:
@@ -247,13 +247,12 @@ class path:
 
 
         # Increments, max and min of the "t" parameter
-        tMax = Lengh/(np.sqrt(Cx**2+Cy**2+Cz**2))
+        tMax = Lengh
         tMin = 0
         tInc = tMax/(NbPoints-1)
 
-        Base1 =
-
-        RotMat = ExtractRotationMatrix(Base_1 = [Cx,Cy,Cz],Base_0 = None,Norm=True)
+        Base1 = Order3Base(e1 = [Cx,Cy,Cz], BuildFromThis = True)
+        RotMat = ExtractRotationMatrix(Base1)
 
         #Generation of the tables
         tTemp = 0
@@ -275,6 +274,10 @@ class path:
 
             # Increment
             tTemp +=tInc
+
+        coordinatesMatrix = np.array([self.Lx,self.Ly,self.Lz]).T
+        RotatedCoordinateMatrix = np.dot(coordinatesMatrix,RotMat)
+        self.Lx,self.Ly,self.Lz = RotatedCoordinateMatrix.T
 
 
 

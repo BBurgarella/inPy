@@ -53,7 +53,7 @@ def polar2cart(rho,phi):
 def Get_angle(Vector1,Vector2):
     return acos(np.dot(Vector1,Vector2)/(np.linalg.norm(Vector1)*np.linalg.norm(Vector2)))
 
-def ExtractRotationMatrix(Base_1,Base_0 = None,Norm=True):
+def ExtractRotationMatrix(Base_1,Base_0 = None):
     from inPy.inPy_Classes import Order3Base
     """
     This function returns the rotation matrix to get from one base to the
@@ -70,9 +70,6 @@ def ExtractRotationMatrix(Base_1,Base_0 = None,Norm=True):
     # Normalization of the user input
     if Base_0 == None:
         Base_0 = Order3Base()
-    if Norm == True:
-        Base_1.Normalize()
-        Base_0.Normalize()
     # Proper code of the function
     MatB_1 = np.array([Base_1[0],Base_1[1],Base_1[2]])
     MatB_0 = np.array([Base_0[0],Base_0[1],Base_0[2]])
