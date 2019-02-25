@@ -25,15 +25,30 @@ import numpy as np
 import copy
 import sys
 
+Error = False
 
-# inPy Imports
 
+# inPy classes import
 try:
-    from inPy.inPy_Classes import *
-    from inPy.inPy_Constants import *
-    from inPy.inPy_Functions import *
+    from inPy.Classes.FEM import *
+    from inPy.Classes.Geometry import *
+    from inPy.Classes.Path import *
+    from inPy.Classes.Wired_Structures import *
+
+except Exception as e:
+    print("Error, impossible to load the inPy class files")
+    print("The error is: \"{}\"".format(e))
+    Error = True
+
+# inPy functions import
+try:
+    from inPy.Functions.inPy_Functions import *
+
+except Exception as e:
+    Error = True
+    print("Error, impossible to load the inPy function files")
+    print("The error is: \"{}\"".format(e))
+
+if Error == False:
     print("inPy V{} imported".format(inPy_Version))
     print("Copyright (C) <2019>  <Boris Burgarella>")
-except:
-    print("Error, impossible to load the inPy files")
-    print("Please check that the file are in the inPy folder")
