@@ -1,5 +1,6 @@
 from __init__ import *
 
+
 class ASnode(node):
 
     """
@@ -12,7 +13,7 @@ class ASnode(node):
     """
 
     def __init__(self,X,Y,Z,ID):
-        node.__init__(X,Y,Z,ID)
+        super.__init__(X,Y,Z,ID)
 
 
     def Generate(self):
@@ -32,7 +33,7 @@ class ASBeamMesh(BeamMesh):
     """
 
     def __init__(self,Namestr,ElemType,Radius,TypeStr,PosStr,NodeList=[],ElemList=[],Node0 = 1,Elem0 = 1):
-        BeamMesh.__init__(,Namestr,ElemType,Radius,TypeStr,PosStr,NodeList=[],ElemList=[],Node0 = 1,Elem0 = 1)
+        super.__init__(Namestr,ElemType,Radius,TypeStr,PosStr,NodeList=[],ElemList=[],Node0 = 1,Elem0 = 1)
 
 
 

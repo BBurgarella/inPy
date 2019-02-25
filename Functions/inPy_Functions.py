@@ -6,7 +6,7 @@ import sys
 import pdb
 from math import *
 
-from inPy.inPy_Classes import *
+from inPy.Classes import *
 from inPy.inPy_Constants import *
 
 ##################################
@@ -25,6 +25,27 @@ def EnableScriptingEnvironement(Verbose = True):
         if Verbose:
             print("Impossible to import abaqus libraries")
             print("You need to use the abaqus python command or, in CAE 'File -> run script'")
+
+##################################
+#	   	wrapping functions		 #
+##################################
+
+"""
+The functions here are defined to make standalone version of
+functions already existing within a type of object
+This allows to use this kind of function as parameter for another function
+(for example it is used in the strand class to specify the path generation function)
+"""
+
+def CreatePath(PathTypeKey,*args,**kwargs):
+    from inPy import path
+    tempPath = path()
+    if PathTypeKey == "Sinus":
+        tempPath.Init3DSinus(*args,**kwargs)
+    elif PathTypeKey == "Line":
+        tempPath.InitLinear(*args,**kwargs)
+    return tempPath
+
 
 ######################################
 #	   FEM specific functions		 #
@@ -140,7 +161,7 @@ def circlespacking(R,yarnR):
 	return xy_disc
 
 
-def OvalDistribution(yarnR,Setup = "Hex",R1=None,R2=None,SparsingCoeff=0):
+def OvalDistribution(yarnR,Setup = "Hex",R1=None,R2=None,SparsingCoeff=0,Remove_Not_Selected = True):
 
     """
     This function returns an array of coordinates
@@ -191,10 +212,14 @@ def OvalDistribution(yarnR,Setup = "Hex",R1=None,R2=None,SparsingCoeff=0):
             YCandidate = -R2*1.5+ yarnR + (((VLayer)*VerticalDistanceCoeff))
             candidatesTable.append([XCandidate,YCandidate])
     SelectedTable = []
-    for PossibleFiber in candidatesTable:
-        if ((abs(PossibleFiber[0])+yarnR)/R1)**2 + ((abs(PossibleFiber[1])+yarnR)/R2)**2 <= 1:
-            SelectedTable.append(PossibleFiber)
-    return SelectedTable
+    if Remove_Not_Selected == False:
+        print("coucou")
+        return candidatesTable
+    else:
+        for PossibleFiber in candidatesTable:
+            if ((abs(PossibleFiber[0])+yarnR)/R1)**2 + ((abs(PossibleFiber[1])+yarnR)/R2)**2 <= 1:
+                SelectedTable.append(PossibleFiber)
+        return SelectedTable
 
 ##############################
 #	   Debug functions		 #
