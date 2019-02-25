@@ -1,4 +1,3 @@
-<<<<<<< HEAD:inPy_Constants.py
 # -*- coding: utf-8 -*-
 ##########################
 #		Constants		 #
@@ -42,4 +41,3 @@ inPy_Version = "0.1"
 
 import sys
 PyVersion =  sys.version_info[0]
->>>>>>> b40c07d8ccef4f6a82e1e7fd4d1c83a0dbf6863e:inPy/inPy_Constants.py
