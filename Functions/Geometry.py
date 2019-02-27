@@ -9,53 +9,6 @@ from math import *
 from inPy.Classes import *
 from inPy.inPy_Constants import *
 
-##################################
-#	   	General functions		 #
-##################################
-
-def EnableScriptingEnvironement(Verbose = True):
-    import AbaqusScripting
-    if Verbose:
-        print("This file can now be used as a script in abaqus")
-    try:
-        if Verbose:
-            print("This file can now be used as a script in abaqus")
-            print(AbaqusScripting.methods)
-    except:
-        if Verbose:
-            print("Impossible to import abaqus libraries")
-            print("You need to use the abaqus python command or, in CAE 'File -> run script'")
-
-##################################
-#	   	wrapping functions		 #
-##################################
-
-"""
-The functions here are defined to make standalone version of
-functions already existing within a type of object
-This allows to use this kind of function as parameter for another function
-(for example it is used in the strand class to specify the path generation function)
-"""
-
-def CreatePath(PathTypeKey,*args,**kwargs):
-    from inPy import path
-    tempPath = path()
-    if PathTypeKey == "Sinus":
-        tempPath.Init3DSinus(*args,**kwargs)
-    elif PathTypeKey == "Line":
-        tempPath.InitLinear(*args,**kwargs)
-    return tempPath
-
-
-######################################
-#	   FEM specific functions		 #
-######################################
-
-def CreateDummyString(NodeNum,X,Y,Z):
-    strtoreturn = ""
-    strtoreturn += "**\n*Part, name = Dummy\n"
-    strtoreturn += "*End Part\n**\n"
-    return strtoreturn
 
 ##################################
 #	   Geometry functions		 #
@@ -70,35 +23,6 @@ def polar2cart(rho,phi):
 	x=rho*np.cos(phi)
 	y=rho*np.sin(phi)
 	return(x,y);
-
-def Get_angle(Vector1,Vector2):
-    return acos(np.dot(Vector1,Vector2)/(np.linalg.norm(Vector1)*np.linalg.norm(Vector2)))
-
-def ExtractRotationMatrix(Base_1,Base_0 = None):
-    from inPy.inPy_Classes import Order3Base
-    """
-    This function returns the rotation matrix to get from one base to the
-    other. If Base_0 is not specified, it is assumed that the target
-    base is e1 = [1,0,0], e1 = [0,1,0], e1 = [0,0,1]
-
-    if Norm is set to False, it is assumed that the used gave
-    an already normalized base
-
-    This very simple implementation was found here:
-    https://stackoverflow.com/questions/50474886/finding-rotation-matrix-to-transform-one-3-vector-basis-to-another-in-3d
-
-    """
-    # Normalization of the user input
-    if Base_0 == None:
-        Base_0 = Order3Base()
-    # Proper code of the function
-    MatB_1 = np.array([Base_1[0],Base_1[1],Base_1[2]])
-    MatB_0 = np.array([Base_0[0],Base_0[1],Base_0[2]])
-
-    return np.linalg.solve(MatB_1,MatB_0).T
-
-
-
 
 def theta(i,Ri,Rt,angle,L,NbSeg):
     if angle == 0:
@@ -220,32 +144,3 @@ def OvalDistribution(yarnR,Setup = "Hex",R1=None,R2=None,SparsingCoeff=0,Remove_
             if ((abs(PossibleFiber[0])+yarnR)/R1)**2 + ((abs(PossibleFiber[1])+yarnR)/R2)**2 <= 1:
                 SelectedTable.append(PossibleFiber)
         return SelectedTable
-
-##############################
-#	   Debug functions		 #
-##############################
-
-def PlotCircles(CirclesDistrib,R,XBd,YBd,D1,D2):
-    # Local imports to avoid importing matplotlib
-    # for no reasons
-    from matplotlib.patches import Circle, Ellipse
-    from matplotlib.collections import PatchCollection
-    import matplotlib.pyplot as plt
-
-    fig, ax = plt.subplots()
-
-    patches = []
-    EllipseP = Ellipse((0,0),D1,D2,alpha=1,edgecolor="Black",fill=False)
-    for Coords in CirclesDistrib:
-        circle = Circle((Coords[0], Coords[1]), R)
-        patches.append(circle)
-
-    colors = 100*np.random.rand(len(patches))
-    p = PatchCollection(patches)
-    p.set_array(np.array(colors))
-    ax.add_collection(p)
-    ax.add_patch(EllipseP)
-    ax.set_xlim(*XBd)
-    ax.set_ylim(*YBd)
-
-    plt.show()

@@ -1,0 +1,42 @@
+2019 - 02 -26
+
+- Redefinition of the library structure and how functions are handled,
+  a series of separated files were created in a new Functions file:
+  --->  Debug.py gathering all the functions used to debug (mostly auto-plot functions)
+  --->  FEM.py all the FEM related functions
+  --->  Geometry.py, all the geometry functions (circle packing etc.)
+  --->  linalg.py, linear algebra methods
+  --->  Meta.py meta-functions related to numpy (Init3DSinus for path wrapper for example)
+
+  Status: Partially tested
+
+- in inPy.linalg.Get_angle, added a Rad_or_Deg optional parameter to let the user choose between outputing
+  the angle in rad of degrees
+
+  Status: Validated
+
+- Definition of a rigid_Body class to handle things suchs a pulleys etc. it is implemented in
+  inPy/Classes/RigidBodies.py
+
+  each rigid body has, by default, 8 attributes:
+
+  Name ---> Name of the rigid body
+  Density  --->Density
+  CenterPoint   ---> Mass center
+  RotInertiaMatrix   ---> Rotary intertia matrix
+  TransVect  ---> Translation vector
+  RotVect   ---> Rotation vector
+  Ref_Base   ---> Base in which express the rotations
+  None   ---> Generation method
+
+  and two methods that should be overrided when subclassing:
+  Generate_INP_String
+  Calc_Rotary_intertia
+
+  Status: Being implemented
+
+- Definition of a pulley class, subclass of rigid_body
+
+  new attributes:
+   Radius (of the pulley)
+   lengh ---> lengh of the extrusion

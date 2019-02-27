@@ -34,6 +34,7 @@ try:
     from inPy.Classes.Geometry import *
     from inPy.Classes.Path import *
     from inPy.Classes.Wired_Structures import *
+    from inPy.Classes.RigidBodies import * 
 
 except Exception as e:
     print("Error, impossible to load the inPy class files")
@@ -42,7 +43,11 @@ except Exception as e:
 
 # inPy functions import
 try:
-    from inPy.Functions.inPy_Functions import *
+    from inPy.Functions.FEM import *
+    from inPy.Functions.Geometry import *
+    from inPy.Functions.Meta import *
+    from inPy.Functions.Debug import *
+    from inPy.Functions.linalg import *
 
 except Exception as e:
     Error = True

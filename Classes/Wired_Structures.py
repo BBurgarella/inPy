@@ -71,7 +71,7 @@ class Strand:
 
 
 class Braid:
-    from inPy.Functions.inPy_Functions import circlespacking
+    from inPy.Functions.Geometry import circlespacking
 
     def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R):
         # Local imports
