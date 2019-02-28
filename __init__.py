@@ -56,8 +56,6 @@ except Exception as e:
 
 # inPy functions import
 try:
-    #for key,item in backendDict:
-    #    print("Using {} backend for {}".format(item,key))
     from inPy.Backend.BackendPlot import *
 
 except Exception as e:
@@ -67,4 +65,6 @@ except Exception as e:
 
 if Error == False:
     print("inPy V{} imported".format(inPy_Version))
+    for key in backendDict:
+        print("Using {} backend for {}s".format(backendDict[key],key))
     print("Copyright (C) <2019>  <Boris Burgarella>")

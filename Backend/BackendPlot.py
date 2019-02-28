@@ -37,9 +37,20 @@ if backendDict["Plot"] == "Matplotlib":
             ax = figure.add_subplot(111, projection='3d')
             fig_axes_Tuple = (figure,ax)
         fig_axes_Tuple[1].plot_surface(x,y,z,**kwargs)
+        # I had to add this to force the aspect ratio
+        # source: https://stackoverflow.com/questions/13685386/matplotlib-equal-unit-length-with-equal-aspect-ratio-z-axis-is-not-equal-to
+        # Create cubic bounding box to simulate equal aspect ratio
+        max_range = np.array([x.max()-x.min(), y.max()-y.min(), z.max()-z.min()]).max()
+        Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(x.max()+x.min())
+        Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(y.max()+y.min())
+        Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(z.max()+z.min())
+        # Comment or uncomment following both lines to test the fake bounding box:
+        for xb, yb, zb in zip(Xb, Yb, Zb):
+           fig_axes_Tuple[1].plot([xb], [yb], [zb], 'w')
+        return fig_axes_Tuple
         return fig_axes_Tuple
 
-    def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,tube_radius=None**kwargs):
+    def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,tube_radius=None,**kwargs):
         """
         if matplotlib is the backend, this function is just a wrapper
         for matplotlib's plot in a 3d case
@@ -52,7 +63,21 @@ if backendDict["Plot"] == "Matplotlib":
             figure = plt.figure()
             ax = figure.add_subplot(111, projection='3d')
             fig_axes_Tuple = (figure,ax)
-        fig_axes_Tuple[1].plot(Lx,Ly,Lz,linewidth=tube_radius,**kwargs)
+        fig_axes_Tuple[1].plot(Lx,Ly,Lz,linewidth=None,**kwargs)
+        Lx = np.array(Lx)
+        Ly = np.array(Ly)
+        Lz = np.array(Lz)
+
+        # I had to add this to force the aspect ratio
+        # source: https://stackoverflow.com/questions/13685386/matplotlib-equal-unit-length-with-equal-aspect-ratio-z-axis-is-not-equal-to
+        # Create cubic bounding box to simulate equal aspect ratio
+        max_range = np.array([Lx.max()-Lx.min(), Ly.max()-Ly.min(), Lz.max()-Lz.min()]).max()
+        Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(Lx.max()+Lx.min())
+        Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(Ly.max()+Ly.min())
+        Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(Lz.max()+Lz.min())
+        # Comment or uncomment following both lines to test the fake bounding box:
+        for xb, yb, zb in zip(Xb, Yb, Zb):
+           fig_axes_Tuple[1].plot([xb], [yb], [zb], 'w')
         return fig_axes_Tuple
 
     def show():

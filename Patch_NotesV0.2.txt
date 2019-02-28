@@ -1,8 +1,12 @@
 2019 - 02 -28
 
+TODO
+    - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
+    - Write an assembly class to simplify inp generation
+
 - Made the Braid class compatible with both backends for plot3d
 
-  Status: implemented, about to be tested
+  Status: implemented, tested and validated
 
 - Fixed a bug that caused the contact surface to be on the inside a generated SquareSectionBar
 instead of the outside
@@ -23,7 +27,7 @@ status implemented, tested and validated
   If GenMethod is "Revolution", PolygonString should return the definition of the surface that will be revoluted
   if GenMethod is "Extrusion", PolygonString should return the definiton of the surface that will be extruded
 
-status: implemented, currently testing
+status: implemented, tested and validated
 
 
 2019 - 02 -27
