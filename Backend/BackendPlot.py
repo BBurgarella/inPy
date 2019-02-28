@@ -39,7 +39,7 @@ if backendDict["Plot"] == "Matplotlib":
         fig_axes_Tuple[1].plot_surface(x,y,z,**kwargs)
         return fig_axes_Tuple
 
-    def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,**kwargs):
+    def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,tube_radius=None**kwargs):
         """
         if matplotlib is the backend, this function is just a wrapper
         for matplotlib's plot in a 3d case
@@ -52,7 +52,7 @@ if backendDict["Plot"] == "Matplotlib":
             figure = plt.figure()
             ax = figure.add_subplot(111, projection='3d')
             fig_axes_Tuple = (figure,ax)
-        fig_axes_Tuple[1].plot(Lx,Ly,Lz,**kwargs)
+        fig_axes_Tuple[1].plot(Lx,Ly,Lz,linewidth=tube_radius,**kwargs)
         return fig_axes_Tuple
 
     def show():
@@ -72,6 +72,18 @@ if backendDict["Plot"] == "Mayavi":
         if fig_axes_Tuple == None:
             fig_axes_Tuple = mlab.figure()
         New_mesh = mlab.mesh(x, y, z,**kwargs)
+        return fig_axes_Tuple
+
+    def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,tube_radius=None,**kwargs):
+        """
+        if matplotlib is the backend, this function is just a wrapper
+        for matplotlib's plot in a 3d case
+
+        """
+
+        if fig_axes_Tuple == None:
+            fig_axes_Tuple = mlab.figure()
+        New_mesh = mlab.plot3d(Lx,Ly,Lz,tube_radius=tube_radius,**kwargs)
         return fig_axes_Tuple
 
     def show():
