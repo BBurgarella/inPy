@@ -24,7 +24,7 @@ class rigid_Body:
 
     """
 
-    def __init__(self, Name, Density, RotInertiaMatrix = None, CenterPoint=[0,0,0], TransVect = [0,0,0], RotVect = [0,0,0], Ref_Base = None):
+    def __init__(self, Name, Density, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0],FirstNode = 1):
         """
         A Rigid body of any shape should be defined by a name, a Matrix to store its
         rotary intertias, a center point (Should always refer to the center of mass), a translation vector,
@@ -35,9 +35,7 @@ class rigid_Body:
 
         """
         from inPy.Classes.Geometry import Order3Base
-
-        if Ref_Base == None:
-            Ref_Base = Order3Base()
+        from inPy.Functions.linalg import RotVect_to_RotMat
 
         # Name of the rigid body
         self.Name = Name
@@ -60,16 +58,13 @@ class rigid_Body:
         #  [0,0.001,0],
         #  [0,0,0.001]]
         # Because it is therefore assumed that the rotary intertia is negligeable
-        self.RotInertiaMatrix = RotInertiaMatrix
-
-        # Translation vector
-        self.TransVect = TransVect
+        self.RotInertiaMatrix = np.array([[0.001,0,0],[0,0.001,0],[0,0,0.001]])
 
         # Rotation vector
         self.RotVect = RotVect
-
-        # Base in which express the rotations
-        self.Ref_Base = Ref_Base
+        self.FirstNode = FirstNode
+        self.CurrentNode = FirstNode
+        self.RotMat = RotVect_to_RotMat(RotVect)
 
         # Generation method
         # None => by giving a series of points
@@ -77,14 +72,92 @@ class rigid_Body:
         # Revolution => Takes a surface and makes a revolution solid
         self.GenMethod = None
 
-    def Generate_INP_String(self):
+    def Generate_PartINP_String(self):
 
         """
-        this function is empty here but must be redefined in subclasses
+        This function returns the string to
+        add to the inp when generating the parts
 
         """
-        raise ValueError("The Generate_INP_String method have not been overrided for this subclass and\
-        is therefore empty, you must override this method when subclassing the rigid_Body class")
+        #raise ValueError("The Generate_INP_String method have not been overrided for this subclass and\
+        #is therefore empty, you must override this method when subclassing the rigid_Body class")
+
+        inpString = ""
+
+        # First we need to create an empty part
+        inpString += "**\n*Part, name={}\n".format(self.Name)
+
+        if self.GenMethod == "Revolution":
+            # Create analytical surface
+            inpString += "*Surface, type=REVOLUTION, name={}-Surface\n".format(self.Name)
+            inpString += self.PolygonString()
+
+        if self.GenMethod == "Extrusion":
+            # Create analytical surface
+            inpString += "*Surface, type=CYLINDER, name={}-Surface\n".format(self.Name)
+            #inpString += "{},{}\n".format(OriginString,XLocalString)
+            inpString += self.PolygonString()
+
+        # Create the reference point
+        inpString += "*Node\n{}, 0., 0., 0.\n".format(self.CurrentNode)
+        self.CurrentNode += 1
+        # Node sets for the reference point
+        inpString += "*Nset,nset={}-RefPt_, internal\n1,\n".format(self.Name)
+        inpString += "*Nset, nset=set-RefPt{}, internal\n1,\n".format(self.Name)
+
+
+        inpString += "*End Part\n"
+
+        return inpString
+
+    def Generate_AssemblyINP_String(self):
+
+        from inPy.inPy_Constants import PI
+
+        """
+        this function returns the string to add to the inp file
+        when building the assembly
+
+        """
+        #raise ValueError("The Generate_INP_String method have not been overrided for this subclass and\
+        #is therefore empty, you must override this method when subclassing the rigid_Body class")
+
+        inpString = ""
+
+        # First we need to create an empty part
+        inpString += "**\n*Instance, name={}, part={}\n".format(self.Name,self.Name)
+        # Translation of the center point
+        inpString += "{}, {}, {}.\n".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2])
+
+        #Rotations
+        OriginString = "{}, {}, {}".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2])
+        XLocalString = "{}, {}, {}".format(self.CenterPoint[0]+1,self.CenterPoint[1],self.CenterPoint[2])
+        YLocalString = "{}, {}, {}".format(self.CenterPoint[0],self.CenterPoint[1]+1,self.CenterPoint[2])
+        ZLocalString = "{}, {}, {}".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2]+1)
+
+        #Rotation #1
+        inpString +="{}, {}, {}\n".format(OriginString,XLocalString,self.RotVect[0]*180/PI)
+        #Rotation #2
+        inpString +="{}, {}, {}\n".format(OriginString,YLocalString,self.RotVect[0]*180/PI)
+        #Rotation #3
+        inpString +="{}, {}, {}\n".format(OriginString,ZLocalString,self.RotVect[0]*180/PI)
+
+        # Create the rigid body reference in abaqus
+        inpString += "*Rigid Body, ref node={}-RefPt_, analytical surface={}-Surface\n".format(self.Name,self.Name)
+        inpString += "*Element, type=MASS, elset=Set-RefPt{}_{}Intertia_MASS_\n".format(self.Name,self.Name)
+        inpString += "1, 1\n"
+        inpString += "*Mass, elset=Set-RefPt{}_{}Intertia_MASS_\n".format(self.Name,self.Name)
+        inpString += "10.,\n"
+        inpString += "*Element, type=ROTARYI, elset=Set-RefPt{}_{}Intertia_ROTI_\n".format(self.Name,self.Name)
+        inpString += "2, 1\n"
+        inpString += "*Rotary Inertia, elset=Set-RefPt{}_{}Intertia_ROTI_\n".format(self.Name,self.Name)
+        inpString += "{}, {}, {}, {}, {}, {}\n".format(self.RotInertiaMatrix[0,0],self.RotInertiaMatrix[1,1],self.RotInertiaMatrix[2,2],\
+        self.RotInertiaMatrix[0,1],self.RotInertiaMatrix[0,2],self.RotInertiaMatrix[1,2])
+
+        # End the instance definition
+        inpString += "*End Instance\n"
+
+        return inpString
 
     def Calc_Rotary_intertia(self):
 
@@ -108,33 +181,36 @@ class Pulley(rigid_Body):
     ShapeArgs --> Tuple used to specify the shape-related parameters
 
     """
-    def __init__(self, Name, Density,ShapeString, ShapeArgs, RotInertiaMatrix = None, CenterPoint=[0,0,0], TransVect = [0,0,0], RotVect = [0,0,0], Ref_Base = None):
+    def __init__(self, Name, Density,ShapeString, ShapeArgs, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0]):
 
         # init parent class (rigid_Body)
-        super().__init__(Name, Density, RotInertiaMatrix = RotInertiaMatrix, CenterPoint=CenterPoint, TransVect = TransVect, RotVect = RotVect, Ref_Base = Ref_Base)
+        super().__init__(Name, Density, RotInertiaMatrix = RotInertiaMatrix, CenterPoint=CenterPoint, RotVect = RotVect)
 
         if ShapeString == "Cyl":
             self.Radius = ShapeArgs[0]
             self.Lengh = ShapeArgs[1]
             self.GenMethod = "Revolution"
 
-    def Draw(self,Sides = 100,color=(random(),random(),random()),standalone=True,fig = None,backend="Mayavi"):
+    def PolygonString(self):
+        PolyString = ""
+        # Draw a square that will be revoluted
+        PolyString += "START, 0., {}\n".format(self.Lengh/2)
+        PolyString += " LINE, {}, {}\n".format(self.Radius,self.Lengh/2)
+        PolyString += " LINE, {}, {}\n".format(self.Radius,-self.Lengh/2)
+        PolyString += " LINE, 0, {}\n".format(self.Radius,-self.Lengh/2)
+        return PolyString
+
+    def Draw(self,Sides = 100,color=(random(),random(),random()),standalone=True,fig = None):
         # Create the data.
         from numpy import pi, sin, cos, mgrid
-        if backend == "Mayavi":
-            print("Using Mayabi backend for plot")
-            from mayavi import mlab
-        elif backend == "matplotlib":
-            print("Using matplotlib backend for plot")
-            import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
+        import inPy.Backend.BackendPlot as PlotBundle
 
         # Increments
         dRot, incr = (2/pi)/Sides, self.Lengh/Sides
 
         # make the table
         [z,theta] = mgrid[0:self.Lengh:incr,0:2*pi:dRot]
-        r = self.Radius # r only needs to be defined onces thaks to broadcasting
+        r = self.Radius # r only needs to be defined onces thanks to broadcasting
         x = r*np.cos(theta)
         y = r*np.sin(theta)
 
@@ -143,27 +219,61 @@ class Pulley(rigid_Body):
         y = y + self.CenterPoint[1]
         z = z + (-self.Lengh/2) + self.CenterPoint[2]
 
-        # View it.
-        # Mayavi Backend
-        if backend == "Mayavi":
-            if fig == None:
-                fig = mlab.figure()
-            s = mlab.mesh(x, y, z,color=color)
-            if standalone:
-                mlab.show()
-            else:
-                return fig
+        Coords = np.transpose([x,y,z])
+        RealCoords = np.transpose(np.dot(Coords,self.RotMat))
 
-        # Matplotlib backend:
-        elif backend == "Matplotlib":
-            if fig == None:
-                # fig[0]--> plt.figure,
-                # fig[1]--> plt.axes
-                figure = plt.figure()
-                ax = figure.add_subplot(111, projection='3d')
-                fig = (figure,ax)
-            fig[1].scatter(x,y,z)
-            if standalone:
-                plt.show()
-            else:
-                return fig
+        # View it.
+        fig = PlotBundle.Plot_surface(RealCoords[0],RealCoords[1],RealCoords[2],fig)
+        if standalone:
+            PlotBundle.show()
+        else:
+            return fig
+
+
+class SquareSectionBar(rigid_Body):
+
+    def __init__(self, Name, Density, ShapeArgs, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0]):
+
+        # init parent class (rigid_Body)
+        super().__init__(Name, Density, RotInertiaMatrix = RotInertiaMatrix, CenterPoint=CenterPoint, RotVect = RotVect)
+
+        self.L1 = ShapeArgs[0]
+        self.L2 = ShapeArgs[1]
+        self.Lengh = ShapeArgs[2]
+        self.GenMethod = "Extrusion"
+
+    def PolygonString(self):
+        PolyString = ""
+        # Draw a square that will be revoluted
+        PolyString += "START, {}, {}\n".format(self.L1/2,-self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(-self.L1/2,-self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(-self.L1/2,self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(self.L1/2,self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(self.L1/2,-self.L2/2)
+        return PolyString
+
+
+    def Draw(self,color=(random(),random(),random()),standalone=True,fig = None):
+        # Create the data.
+        from numpy import pi, sin, cos, mgrid
+        import inPy.Backend.BackendPlot as PlotBundle
+
+        # make the table
+        x = np.array([[-self.L1/2,self.L1/2,self.L1/2,-self.L1/2,-self.L1/2],[-self.L1/2,self.L1/2,self.L1/2,-self.L1/2,-self.L1/2]]) # Coordinates going in clockwise and positive z order
+        y = np.array([[self.L2/2,self.L2/2,-self.L2/2,-self.L2/2,self.L2/2],[self.L2/2,self.L2/2,-self.L2/2,-self.L2/2,self.L2/2]])
+        z = np.array([[-self.Lengh/2,-self.Lengh/2,-self.Lengh/2,-self.Lengh/2,-self.Lengh/2],[self.Lengh/2,self.Lengh/2,self.Lengh/2,self.Lengh/2,self.Lengh/2]])
+
+        # CenterPoint
+        x = x + self.CenterPoint[0]
+        y = y + self.CenterPoint[1]
+        z = z + self.CenterPoint[2]
+
+        Coords = np.transpose([x,y,z])
+        RealCoords = np.transpose(np.dot(Coords,self.RotMat))
+
+        # View it.
+        fig = PlotBundle.Plot_surface(RealCoords[0],RealCoords[1],RealCoords[2],fig)
+        if standalone:
+            PlotBundle.show()
+        else:
+            return fig

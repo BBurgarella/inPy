@@ -34,7 +34,7 @@ try:
     from inPy.Classes.Geometry import *
     from inPy.Classes.Path import *
     from inPy.Classes.Wired_Structures import *
-    from inPy.Classes.RigidBodies import * 
+    from inPy.Classes.RigidBodies import *
 
 except Exception as e:
     print("Error, impossible to load the inPy class files")
@@ -48,6 +48,17 @@ try:
     from inPy.Functions.Meta import *
     from inPy.Functions.Debug import *
     from inPy.Functions.linalg import *
+
+except Exception as e:
+    Error = True
+    print("Error, impossible to load the inPy function files")
+    print("The error is: \"{}\"".format(e))
+
+# inPy functions import
+try:
+    #for key,item in backendDict:
+    #    print("Using {} backend for {}".format(item,key))
+    from inPy.Backend.BackendPlot import *
 
 except Exception as e:
     Error = True

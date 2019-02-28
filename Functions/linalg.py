@@ -17,6 +17,29 @@ from inPy.inPy_Constants import *
 #	   	General functions		 #
 ##################################
 
+def RotVect_to_RotMat(Vect):
+    """
+    input: rotation vector of  shape 1x3
+    output: rotation matrix 3x3
+
+    """
+    xAngle = Vect[0]
+    yAngle = Vect[1]
+    zAngle = Vect[2]
+
+    # rotation around x
+    xRot_Mat = np.array([[1,0,0],[0,np.cos(xAngle),-np.sin(xAngle)],[0,np.sin(xAngle),np.cos(xAngle)]])
+
+    # rotation around y
+    yRot_Mat = np.array([[np.cos(yAngle),0,np.sin(yAngle)],[0,1,0],[-np.sin(yAngle),0,np.cos(yAngle)]])
+
+    # rotation around z
+    zRot_Mat = np.array([[np.cos(zAngle),-np.sin(zAngle),0],[np.sin(zAngle),np.cos(zAngle),0],[0,0,1]])
+
+    # matrix multplication
+    RotMat = np.dot(np.dot(xRot_Mat,yRot_Mat),zRot_Mat)
+
+    return RotMat
 
 def Get_angle(Vector1,Vector2,Rad_or_Deg = "Rad"):
     """

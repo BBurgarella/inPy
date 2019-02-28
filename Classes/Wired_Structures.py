@@ -105,7 +105,7 @@ class Braid:
 
     def Draw(self,SectionFunction=circlespacking,Secargs = None):
         import random
-        from mayavi import mlab
+        import inPy.Backend.BackendPlot as PlotBundle
 
         if Secargs == None:
             Secargs = (self.R,self.BundleR)
