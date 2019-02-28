@@ -25,4 +25,5 @@ PyVersion =  sys.version_info[0]
 #		Backend		 #
 ######################
 
-backendDict = {"Plot":"Matplotlib"}
+#backendDict = {"Plot":"Matplotlib"}
+backendDict = {"Plot":"Mayavi"}
