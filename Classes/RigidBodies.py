@@ -6,6 +6,7 @@ try:
     import sys
     from random import random
     from math import *
+    from inPy.Classes.Assembly import Instance
 
 except:
     print("Unable to import some modules\nfunctions and classes might not work properly")
@@ -17,14 +18,14 @@ Rigid Bodies
 
 """
 
-class rigid_Body:
+class rigid_Body(Instance):
 
     """
     Master class, all the other classes should herit from this one
 
     """
 
-    def __init__(self, Name, Density, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0],FirstNode = 1):
+    def __init__(self, Name, Density, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0],**kwargs):
         """
         A Rigid body of any shape should be defined by a name, a Matrix to store its
         rotary intertias, a center point (Should always refer to the center of mass), a translation vector,
@@ -33,9 +34,13 @@ class rigid_Body:
         The rotation vector is defined as the angles (rad) to respectively rotate around each axis of the
         chosen base
 
+        I only use **kwargs because I dislike how its harder to know what an *arg will be used for
+
         """
         from inPy.Classes.Geometry import Order3Base
         from inPy.Functions.linalg import RotVect_to_RotMat
+
+        super().__init__(**kwargs)
 
         # Name of the rigid body
         self.Name = Name
@@ -62,8 +67,6 @@ class rigid_Body:
 
         # Rotation vector
         self.RotVect = RotVect
-        self.FirstNode = FirstNode
-        self.CurrentNode = FirstNode
         self.RotMat = RotVect_to_RotMat(RotVect)
 
         # Generation method
@@ -99,11 +102,11 @@ class rigid_Body:
             inpString += self.PolygonString()
 
         # Create the reference point
-        inpString += "*Node\n{}, 0., 0., 0.\n".format(self.CurrentNode)
-        self.CurrentNode += 1
+        Node_ID = self.Get_NodeID()
+        inpString += "*Node\n{}, 0., 0., 0.\n".format(Node_ID)
         # Node sets for the reference point
-        inpString += "*Nset,nset={}-RefPt_, internal\n1,\n".format(self.Name)
-        inpString += "*Nset, nset=set-RefPt{}, internal\n1,\n".format(self.Name)
+        inpString += "*Nset,nset={}-RefPt_, internal\n{},\n".format(self.Name,Node_ID)
+        inpString += "*Nset, nset=set-RefPt{}, internal\n{},\n".format(self.Name,Node_ID)
 
 
         inpString += "*End Part\n"
@@ -127,7 +130,7 @@ class rigid_Body:
         # First we need to create an empty part
         inpString += "**\n*Instance, name={}, part={}\n".format(self.Name,self.Name)
         # Translation of the center point
-        inpString += "{}, {}, {}.\n".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2])
+        inpString += "{}, {}, {}\n".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2])
 
         #Rotations
         OriginString = "{}, {}, {}".format(self.CenterPoint[0],self.CenterPoint[1],self.CenterPoint[2])
@@ -181,10 +184,10 @@ class Pulley(rigid_Body):
     ShapeArgs --> Tuple used to specify the shape-related parameters
 
     """
-    def __init__(self, Name, Density,ShapeString, ShapeArgs, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0]):
+    def __init__(self, Name, Density,ShapeString, ShapeArgs, RotInertiaMatrix = None, CenterPoint=[0,0,0], RotVect = [0,0,0],**kwargs):
 
         # init parent class (rigid_Body)
-        super().__init__(Name, Density, RotInertiaMatrix = RotInertiaMatrix, CenterPoint=CenterPoint, RotVect = RotVect)
+        super().__init__(Name, Density, RotInertiaMatrix = RotInertiaMatrix, CenterPoint=CenterPoint, RotVect = RotVect,**kwargs)
 
         if ShapeString == "Cyl":
             self.Radius = ShapeArgs[0]

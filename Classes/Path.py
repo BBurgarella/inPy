@@ -183,6 +183,10 @@ class path:
         self.NbPoints = len(self.Lx)
 
     def MakeNodeList(self,ID0=0,R=0,YarnR=0):
+
+        from inPy.Functions.Geometry import circlespacking
+        from inPy.Classes.FEM import node,BeamMesh
+
         if R == 0:
             Rsup0 = False
             NodeList = []

@@ -48,7 +48,6 @@ if backendDict["Plot"] == "Matplotlib":
         for xb, yb, zb in zip(Xb, Yb, Zb):
            fig_axes_Tuple[1].plot([xb], [yb], [zb], 'w')
         return fig_axes_Tuple
-        return fig_axes_Tuple
 
     def Plot_Path(Lx,Ly,Lz,fig_axes_Tuple = None,tube_radius=None,**kwargs):
         """

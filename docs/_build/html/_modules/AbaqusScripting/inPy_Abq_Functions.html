@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AbaqusScripting.inPy_Abq_Functions &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Backend.html">Backend namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Classes.html">Classes namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>AbaqusScripting.inPy_Abq_Functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for AbaqusScripting.inPy_Abq_Functions</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">__init__</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1">#########################################</span>
+<span class="c1">## 			Frame Generator            ##</span>
+<span class="c1">#########################################</span>
+
+<div class="viewcode-block" id="FrameGen"><a class="viewcode-back" href="../../AbaqusScripting.html#AbaqusScripting.inPy_Abq_Functions.FrameGen">[docs]</a><span class="k">def</span> <span class="nf">FrameGen</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">odb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    RAM, RAM never changes, The end of the program occurred pretty much as we had predicted.</span>
+<span class="sd">    Too many steps, too many nodes, not enough space or resources to go around.</span>
+<span class="sd">    The details are trivial and pointless, the reasons, as always, purely computational ones.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Just to inform the reader</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{}</span><span class="s2"> frames to read&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">odb</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="o">.</span><span class="n">frames</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">odb</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="o">.</span><span class="n">frames</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">i</span></div>
+
+<span class="c1">############################</span>
+<span class="c1">##        Functions       ##</span>
+<span class="c1">############################</span>
+
+<div class="viewcode-block" id="toFile"><a class="viewcode-back" href="../../AbaqusScripting.html#AbaqusScripting.inPy_Abq_Functions.toFile">[docs]</a><span class="k">def</span> <span class="nf">toFile</span><span class="p">(</span><span class="n">odb</span><span class="p">,</span><span class="n">stepName</span><span class="p">,</span><span class="n">FieldName</span><span class="p">,</span> <span class="n">Filename</span><span class="p">,</span><span class="n">InitFrame</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">FrameGen</span><span class="p">(</span><span class="n">stepName</span><span class="p">,</span> <span class="n">odb</span><span class="p">):</span>
+        <span class="n">FieldValues</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">fieldOutputs</span><span class="p">[</span><span class="n">FieldName</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">PrintArray</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">Curseur</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">InitFrame</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">Element</span> <span class="ow">in</span> <span class="n">FieldValues</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="mi">1</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">FieldValues</span><span class="p">)))</span>
+                <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;InstanceName&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Element</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="s2">&quot;NodeLabel&quot;</span><span class="p">:</span> <span class="n">Element</span><span class="o">.</span><span class="n">elementLabel</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;Z&quot;</span><span class="p">:</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+                <span class="n">PrintArray</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dict</span><span class="p">)</span>
+                <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">InitFrame</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+    <span class="k">if</span> <span class="n">InitFrame</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;------------------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;| Instance_Node | Node ID |    X(t = 0)    |    Y(t = 0)    |    Z(t = 0)    |</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;------------------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">DictionaryList</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:^16}</span><span class="s2">  </span><span class="si">{:^9}</span><span class="s2">  </span><span class="si">{:^15}</span><span class="s2"> </span><span class="si">{:^15}</span><span class="s2">  </span><span class="si">{:^15}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;InstanceName&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;NodeLabel&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]))</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="GatherCoordinatesInTable"><a class="viewcode-back" href="../../AbaqusScripting.html#AbaqusScripting.inPy_Abq_Functions.GatherCoordinatesInTable">[docs]</a><span class="k">def</span> <span class="nf">GatherCoordinatesInTable</span><span class="p">():</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    The coordinates are stored in a numpy array with the structure:</span>
+<span class="sd">    | Instance_Node | Node ID | X(t = 0) | Y(t = 0) | Z(t = 0) | ... ... ... | X(t = i) | Y(t = i) | Z(t = i) |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UValues</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">XMatrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">Element</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">]</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">UValues</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">YMatrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">Element</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">]</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">UValues</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ZMatrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Element</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">Element</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">]</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">UValues</span><span class="p">]</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">XMatrix</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">YMatrix</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZMatrix</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

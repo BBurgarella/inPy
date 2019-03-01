@@ -1,4 +1,21 @@
+2019 - 03 - 01
+--------------
+
+TODO
+    - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
+    - Write an assembly class to simplify inp generation
+    - Implement a Preview method for the model
+
+  - Implemented two new classes in a new inPy.Classes.Assembly file. These classes are respectively the Model class,
+  gathering a series of instances to simplify the generation of inp file and the Instance class that should be
+  used as a master class for anything having a Generate_PartINP_String and Generate_AssemblyINP_String method.
+
+  status: implemented,tested and validated
+
+  - Created the documentation with sphinc
+
 2019 - 02 -28
+-------------
 
 TODO
     - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
@@ -31,6 +48,7 @@ status: implemented, tested and validated
 
 
 2019 - 02 -27
+-------------
 
 - Started the implementation of a backend option, either matplotlib or Mayavi
   Mayavi is way more efficient, but relies on complex dependencies

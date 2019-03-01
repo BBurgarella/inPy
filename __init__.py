@@ -29,12 +29,16 @@ Error = False
 
 
 # inPy classes import
+
 try:
     from inPy.Classes.FEM import *
     from inPy.Classes.Geometry import *
     from inPy.Classes.Path import *
     from inPy.Classes.Wired_Structures import *
     from inPy.Classes.RigidBodies import *
+    from inPy.Classes.Assembly import *
+
+
 
 except Exception as e:
     print("Error, impossible to load the inPy class files")

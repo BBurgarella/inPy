@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Classes.FEM &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Backend.html">Backend namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Classes.html">Classes namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>Classes.FEM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Classes.FEM</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">copy</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to import some modules</span><span class="se">\n</span><span class="s2">functions and classes might not work properly&quot;</span><span class="p">)</span>
+
+<span class="c1">##################################</span>
+<span class="c1">#		Class definitions		 #</span>
+<span class="c1">##################################</span>
+
+<div class="viewcode-block" id="node"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.node">[docs]</a><span class="k">class</span> <span class="nc">node</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">ID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            class definition, to enter a node, one need to give three coordinates and an ID</span>
+<span class="sd">            The coordinates should be entered as follow: X,Y,Z</span>
+<span class="sd">            using the syntax Foonode = node(X,Y,Z,ID)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">ID</span>
+
+<div class="viewcode-block" id="node.string"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.node.string">[docs]</a>    <span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method is used to generate the inp instructions to generate the node in abaqus</span>
+<span class="sd">            no parameter is required and the output is directly a string that can be added</span>
+<span class="sd">            to an inp file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">string</span></div></div>
+
+<div class="viewcode-block" id="LineElement"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.LineElement">[docs]</a><span class="k">class</span> <span class="nc">LineElement</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Node1</span><span class="p">,</span><span class="n">Node2</span><span class="p">,</span><span class="n">ID</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N1</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Node1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Node2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">ID</span>
+
+<div class="viewcode-block" id="LineElement.string"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.LineElement.string">[docs]</a>    <span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N1</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">string</span></div></div>
+
+<div class="viewcode-block" id="BeamMesh"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.BeamMesh">[docs]</a><span class="k">class</span> <span class="nc">BeamMesh</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Namestr</span><span class="p">,</span><span class="n">ElemType</span><span class="p">,</span><span class="n">Radius</span><span class="p">,</span><span class="n">TypeStr</span><span class="p">,</span><span class="n">PosStr</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="p">[],</span><span class="n">ElemList</span><span class="o">=</span><span class="p">[],</span><span class="n">Node0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Type</span> <span class="o">=</span> <span class="n">TypeStr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Position</span> <span class="o">=</span> <span class="n">PosStr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">NodeList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ElemList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span> <span class="o">=</span> <span class="n">Namestr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ElemType</span><span class="o">=</span><span class="n">ElemType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Radius</span> <span class="o">=</span> <span class="n">Radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Elem0</span> <span class="o">=</span> <span class="n">Elem0</span>
+
+        <span class="c1"># if the used mistakingly forgot to enter either an element list or a node list</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">NodeList</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ElemList</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Erreur #01, please enter at least a list of nodes or a list of elements&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if the user only gives an element list</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">NodeList</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ElemList</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ElemList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">node1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ElemList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">node2</span><span class="p">)</span>
+
+        <span class="c1"># if the use only gives a node list</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LineElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Elem0</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">MinNodeID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MaxNodeID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MinElemID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MaxElemID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span>
+
+
+<div class="viewcode-block" id="BeamMesh.InpPart"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.BeamMesh.InpPart">[docs]</a>    <span class="k">def</span> <span class="nf">InpPart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PI</span>
+        <span class="n">RotInertia</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+        <span class="n">FileStr</span> <span class="o">=</span> <span class="s2">&quot;*PART, NAME=&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*NODE, NSET=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NodeList</span><span class="p">):</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">string</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;*ELEMENT, type=&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ElemType</span><span class="o">+</span><span class="s2">&quot;, ELSET=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ElemList</span><span class="p">):</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">string</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;** Section: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;  Profile:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;*Beam Section,  elset=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, material=FiberMat, temperature=GRADIENTS, section=CIRC</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Radius</span><span class="o">*</span><span class="mf">0.9</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;0.,0.,-1</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;** Section: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;  Profile:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;*Solid Section,  elset=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, material=FiberMat</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">PI</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Radius</span><span class="o">*</span><span class="mf">0.9</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="s2">&quot;*Rotary Inertia, elset=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">FileStr</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">RotInertia</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">RotInertia</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">RotInertia</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, 0., 0., 0.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">FileStr</span> <span class="o">+=</span><span class="s2">&quot;*END PART</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">FileStr</span></div></div>
+
+<div class="viewcode-block" id="EmbededBeam"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.EmbededBeam">[docs]</a><span class="k">class</span> <span class="nc">EmbededBeam</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">BeamMesh</span><span class="p">,</span><span class="n">BundleR</span><span class="p">,</span><span class="n">FilR</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BundleRadius</span> <span class="o">=</span> <span class="n">BundleR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FilR</span> <span class="o">=</span> <span class="n">FilR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OUT</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OUT</span><span class="o">.</span><span class="n">Namestr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IN</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="EmbededBeam.Generate"><a class="viewcode-back" href="../../Classes.html#Classes.FEM.EmbededBeam.Generate">[docs]</a>    <span class="k">def</span> <span class="nf">Generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Config</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Truss&quot;</span><span class="p">,</span><span class="s2">&quot;Beam&quot;</span><span class="p">]):</span>
+        <span class="n">Startcount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">MaxNodeID</span>
+        <span class="n">NewNodeList</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">NodeList</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">NewNodeList</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">Startcount</span><span class="o">+</span><span class="n">count</span>
+            <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">IN</span> <span class="o">=</span> <span class="n">BeamMesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN&quot;</span><span class="p">,</span><span class="s2">&quot;B31&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s2">&quot;IN&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NewNodeList</span><span class="p">,</span><span class="n">ElemList</span><span class="o">=</span><span class="p">[],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">MaxElemID</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUT</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">IN</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">IN</span> <span class="o">=</span> <span class="n">BeamMesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN&quot;</span><span class="p">,</span><span class="s2">&quot;T3D2&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s2">&quot;IN&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NewNodeList</span><span class="p">,</span><span class="n">ElemList</span><span class="o">=</span><span class="p">[],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">MaxElemID</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUT</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">IN</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUT</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

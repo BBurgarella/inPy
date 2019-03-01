@@ -5,6 +5,8 @@ try:
     import copy
     import sys
     from math import *
+    from inPy.Classes.Assembly import Instance
+    from inPy.inPy_Constants import PyVersion
 
 except:
     print("Unable to import some modules\nfunctions and classes might not work properly")
@@ -54,15 +56,17 @@ class Strand:
         mlab.show()
 
     def GenerateInpString(self,Config = ["Truss","Beam"],FileName=None):
-        BeamList = []
+        from inPy.Classes.FEM import BeamMesh
+
+        self.BeamList = []
         FileString = ''
         ID = 1
         for Path in self.pathTable:
             NodeList = Path.MakeNodeList(ID0 = 100*ID)[0]
-            BeamList.append(BeamMesh("Beam{}".format(ID),'B31',self.Shargs[0],"Beam","Out",NodeList=NodeList))
-            FileString = FileString + BeamList[-1].InpPart()
+            self.BeamList.append(BeamMesh("Beam{}".format(ID),'B31',self.Shargs[0],"Beam","Out",NodeList=NodeList))
+            FileString = FileString + self.BeamList[-1].InpPart()
             ID = ID + 1
-        print("Beam0: {} Beam1: {}".format(BeamList[0].NodeList[0].Z,BeamList[100].NodeList[0].Z))
+        print("Beam0: {} Beam1: {}".format(self.BeamList[0].NodeList[0].Z,self.BeamList[100].NodeList[0].Z))
         if FileName != None:
             File = open(FileName,"w")
             File.write(FileString)
@@ -70,16 +74,17 @@ class Strand:
         return FileString
 
 
-class Braid:
+class Braid(Instance):
     from inPy.Functions.Geometry import circlespacking
 
-    def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R):
+    def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R,Config =  ["Truss","Beam"],**kwargs):
         # Local imports
         from inPy.inPy_Constants import PI
         from inPy.Classes.Path import path
 
         """ Credits to Louis for most of the code in this class
         """
+        super().__init__(**kwargs)
 
         self.Pitch = Pitch
         self.R = R
@@ -93,6 +98,7 @@ class Braid:
         self.CWpath = []
         self.inpString = ""
         self.PlaitSegments = PlaitSegments;
+        self.Config = Config
 
         for k in range(int(Nby/2)):
             theta = 2*PI*(k-1)/(self.Nby/2)
@@ -134,97 +140,103 @@ class Braid:
         else:
             return fig
 
-
-    def GenerateInpString(self,R=0,AddDummy = True,Config = ["Truss","Beam"]):
+    def Generate_PartINP_String(self,R=0,AddDummy = True):
+        from inPy.Classes.FEM import BeamMesh, EmbededBeam
+        from inPy.Functions.FEM import CreateDummyString
         NodeListCCW = []
         NodeListCW = []
-        BeamList = []
+        self.BeamList = []
         if R == 0:
             Rprime = 1
         else:
             Rprime = R
-        LastId = 1
-        FirstNode = 2
         for k in range(int(self.Nby/2)):
             #Node Generation CCW
             if self.R == 0:
-                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+FirstNode)
+                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+self.FirstNode)
                 NodeListCCW.append(MakeNodeListRes[0])
-                LastId = MakeNodeListRes[1]
+                self.CurrentNode = MakeNodeListRes[1]
 
                 #Mesh Generation
                 string = "BeamCCW"+str(k)
-                if Config[0] == "Truss":
-                    BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
-                if Config[0] == "Beam":
-                    BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                if self.Config[0] == "Truss":
+                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                if self.Config[0] == "Beam":
+                    self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
             else:
                 MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+1,R=self.R,YarnR=self.BundleR)
                 for i in range(len(MakeNodeListRes[0])):
                     NodeListCCW.append(MakeNodeListRes[0][i])
-                    LastId = MakeNodeListRes[1]
+                    self.CurrentNode = MakeNodeListRes[1]
 
                     #Mesh Generation
                     string = "BeamCCW"+str(k)+"_"+str(i)
-                    if Config[0] == "Truss":
-                        BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
-                    if Config[0] == "Beam":
-                        BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                    if self.Config[0] == "Truss":
+                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                    if self.Config[0] == "Beam":
+                        self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
 
-        print("------------------------------------------------------------------\n------------------------CCW Beams Generated-----------------------")
         for k in range(int(self.Nby/2)):
             if self.R == 0:
                 MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=10000*k+1)
                 NodeListCW.append(MakeNodeListRes[0])
-                LastId = MakeNodeListRes[1]
+                self.CurrentNode = MakeNodeListRes[1]
 
                 #Mesh Generation
                 string = "BeamCW"+str(k)
-                if Config[0] == "Truss":
-                    BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
-                if Config[0] == "Beam":
-                    BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                if self.Config[0] == "Truss":
+                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                if self.Config[0] == "Beam":
+                    self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
             else:
                 MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=1000*k+1,R=self.R,YarnR=self.BundleR)
                 for i in range(len(MakeNodeListRes[0])):
                     NodeListCW.append(MakeNodeListRes[0][i])
-                    LastId = MakeNodeListRes[1]
+                    self.CurrentNode = MakeNodeListRes[1]
 
                     #Mesh Generation
                     string = "BeamCW"+str(k)+"_"+str(i)
-                    if Config[0] == "Truss":
-                        BeamList.append(BeamMesh(string,"T3D2",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
-                    if Config[0] == "Beam":
-                        BeamList.append(BeamMesh(string,"B31",self.BundleR/Rprime,Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                    if self.Config[0] == "Truss":
+                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                    if self.Config[0] == "Beam":
+                        self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
 
         if AddDummy == True:
                 self.inpString += CreateDummyString(1,0,0,0)
-        for i in BeamList:
+        for i in self.BeamList:
                 Validation = EmbededBeam(i,self.BundleR/Rprime,self.FilR)
-                self.inpString += Validation.Generate(Config = Config)
+                self.inpString += Validation.Generate(Config = self.Config)
+        self.CurrentNode += 1
         print("------------------------------------------------------------------\n------------------------CW Beams Generated------------------------")
+        return self.inpString
+
+    def Generate_AssemblyINP_String(self,R=0,AddDummy = True):
+        from inPy.inPy_Constants import PyVersion
         #Assembly
-        self.inpString += "**ASSEMBLY\n**\n*Assembly, name = Assembly\n"
+        self.inpString = ""
         if AddDummy == True:
             self.inpString += "**\n*Instance, name = DummyInstance, part  = dummy\n*End Instance\n"
-            self.inpString += "*Node\n      1,           0.,           0.,           0.\n"
-            self.inpString += "*Nset, nset=DummySet, internal\n1,\n"
-            self.inpString += "*Nset, nset=DummySet\n1,\n"
-        for i in BeamList:
-            if Config[1] != None:
+            self.inpString += "*Node\n      {},           0.,           0.,           0.\n".format(self.CurrentNode)
+            self.inpString += "*Nset, nset=DummySet, internal\n{},\n".format(self.CurrentNode)
+            self.inpString += "*Nset, nset=DummySet\n{},\n".format(self.CurrentNode)
+            self.CurrentNode += 1
+        for i in self.BeamList:
+            if self.Config[1] != None:
                 self.inpString += "**\n"
                 self.inpString += "*Instance, name="+i.Namestr+"IN,part="+i.Namestr+"IN\n"
                 self.inpString += "*End Instance\n"
             self.inpString += "**\n"
             self.inpString += "*Instance, name="+i.Namestr+"OUT,part="+i.Namestr+"OUT\n"
             self.inpString += "*End Instance\n"
-        print("------------------------------------------------------------------\n---------------------------Assembly done--------------------------")
+        return self.inpString
 
+    def Generate_CouplingINP_String(self,R=0,AddDummy = True):
         #Set creation for Embeded beams
-        if Config[1] != None:
+        self.inpString = ""
+        if self.Config[1] != None:
             self.inpString += "**\n"
             temp=0
-            for beam in BeamList:
+            for beam in self.BeamList:
                 for node in beam.NodeList:
                     self.inpString += "*Nset, nset=m_"+beam.Namestr+"_"+str(int(node.ID))+", instance="+beam.Namestr+"IN\n "
                     self.inpString += str(int(node.ID+(len(beam.NodeList))))+",\n"
@@ -233,20 +245,20 @@ class Braid:
                     self.inpString += "*Surface, type=NODE, name ="+beam.Namestr+"_"+str(int(node.ID))+"_CNS, internal\ns_"+beam.Namestr+"_"+str(int(node.ID))+", 1\n"
                     temp+=1
                     if PyVersion >= 3:
-                        print("\rSet creation for embeded beams: "+str(int(temp/(len(BeamList)*len(beam.NodeList))*1000)/10)+"%",end="\r")
+                        print("\rSet creation for embeded beams: "+str(int(temp/(len(self.BeamList)*len(beam.NodeList))*1000)/10)+"%",end="\r")
                     else:
-                        print("\rSet creation for embeded beams: "+str(int(temp/(len(BeamList)*len(beam.NodeList))*1000)/10)+"%")
+                        print("\rSet creation for embeded beams: "+str(int(temp/(len(self.BeamList)*len(beam.NodeList))*1000)/10)+"%")
 
         #Set creation for PBCs
         self.inpString += "**\n"
         temp=0
-        for beam in BeamList:
+        for beam in self.BeamList:
             #############################
             # By convention, I always take the first node as the master
             # and the last as the Slave
             #############################
             # Master node, Inside beam
-            if Config[1] != None:
+            if self.Config[1] != None:
                 self.inpString += "*Nset, nset=m_"+beam.Namestr+"_IN_PBC, instance="+beam.Namestr+"IN\n "
                 self.inpString += str(int(beam.MinNodeID+(len(beam.NodeList))))+",\n"
                 # Slave node, Inside beam
@@ -266,14 +278,14 @@ class Braid:
             self.inpString += "*Surface, type=NODE, name ="+beam.Namestr+"_OUT_CNS, internal\ns_"+beam.Namestr+"_OUT_PBC, 1\n"
 
             temp+=1
-            print("\rSet creation for PBCs: "+str(int(temp/(len(BeamList))*1000)/10)+"%",end="\r")
+            print("\rSet creation for PBCs: "+str(int(temp/(len(self.BeamList))*1000)/10)+"%",end="\r")
 
         print("------------------------------------------------------------------\n---------------------------Sets created---------------------------")
         #Coupling
-        if Config[1] != None:
+        if self.Config[1] != None:
             count = 1
             temp=0
-            for beam in BeamList:
+            for beam in self.BeamList:
                 for node in beam.NodeList:
                     self.inpString += "** Constraint"+str(count)+"\n"
                     self.inpString += "*Coupling, constraint name=Constraint-"+str(count)+", ref node=m_"+beam.Namestr+"_"+str(int(node.ID))+", surface="+beam.Namestr+"_"+str(int(node.ID))+"_CNS\n"
@@ -281,13 +293,13 @@ class Braid:
                     count+=1
                     temp+=1
                     if PyVersion >= 3:
-                        print("\rCoupling creation for embeded beams: "+str(int(temp/(len(BeamList)*len(beam.NodeList))*1000)/10)+"%",end="\r")
+                        print("\rCoupling creation for embeded beams: "+str(int(temp/(len(self.BeamList)*len(beam.NodeList))*1000)/10)+"%",end="\r")
                     else:
-                        print("\rCoupling creation for embeded beams: "+str(int(temp/(len(BeamList)*len(beam.NodeList))*1000)/10)+"%")
+                        print("\rCoupling creation for embeded beams: "+str(int(temp/(len(self.BeamList)*len(beam.NodeList))*1000)/10)+"%")
 
         count = 1
         temp = 0
-        for beam in BeamList:
+        for beam in self.BeamList:
             for DL in range(6):
                 # Outside Beams
                 if DL == 2:
@@ -295,7 +307,7 @@ class Braid:
                     self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
                     #Inside Beams
-                    if Config[1] != None:
+                    if self.Config[1] != None:
                         self.inpString += "** Constraint: PBC_IN_"+beam.Namestr+"_"+str(DL+1)+"\n"
                         self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
@@ -304,7 +316,7 @@ class Braid:
                     self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\n"
 
                     #Inside Beams
-                    if Config[1] != None:
+                    if self.Config[1] != None:
                         self.inpString += "** Constraint: PBC_IN_"+beam.Namestr+"_"+str(DL+1)+"\n"
                         self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\n"
 
@@ -313,7 +325,7 @@ class Braid:
                     self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\n"
 
                     #Inside Beams
-                    if Config[1] != None:
+                    if self.Config[1] != None:
                         self.inpString += "** Constraint: PBC_IN_"+beam.Namestr+"_"+str(DL+1)+"\n"
                         self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\n"
 
@@ -321,12 +333,11 @@ class Braid:
             count+=1
             temp+=1
             if PyVersion >= 3:
-                print("\rCoupling creation for PBCs: "+str(int(temp/(len(BeamList))*1000)/10)+"%",end="\r")
+                print("\rCoupling creation for PBCs: "+str(int(temp/(len(self.BeamList))*1000)/10)+"%",end="\r")
             else:
-                print("\rCoupling creation for PBCs: "+str(int(temp/(len(BeamList))*1000)/10)+"%")
+                print("\rCoupling creation for PBCs: "+str(int(temp/(len(self.BeamList))*1000)/10)+"%")
 
 
-        print("------------------------------------------------------------------\n------------------------------Coupling done-----------------------")
 
         self.inpString += "*Element, type=MASS, elset=DUMMYSET\n1, 1\n*Mass, elset=DUMMYSET\n1e-05,\n"
         self.inpString += "*End Assembly\n"
@@ -343,7 +354,7 @@ class Braid:
         self.inpString +="** \n"
 
         #Set definitions
-        for beam in BeamList:
+        for beam in self.BeamList:
             # First End, to apply BCs
             self.inpString +="*Nset, nset=BCSet, instance="+str(beam.Namestr)+beam.Position+"\n"
             self.inpString +=str(int(beam.NodeList[0].ID))+"\n"
@@ -351,9 +362,10 @@ class Braid:
             # Second End, to apply Forces
             self.inpString +="*Nset, nset=ForceSet, instance="+str(beam.Namestr)+beam.Position+"\n"
             self.inpString +=str(int(beam.NodeList[-1].ID))+"\n"
+        return self.inpString
 
-    def CreateBCString(self,Value,FrictionCoef,Type="Force"):
-
+    def Create_BCINP_String(self,Value,FrictionCoef,Type="Force"):
+        self.inpString = ""
         self.inpString += "*Amplitude, name=Amp-1, definition=SMOOTH STEP\n             0.,              0.,              1.,              1.\n**\n"
         self.inpString += "** INTERACTION PROPERTIES\n**\n*Surface Interaction, name=IntProp-1\n*Friction\n "+str(FrictionCoef)+",\n** ----------------------------------------------------------------\n**\n"
         self.inpString += "*Step, name=Step-1, nlgeom=YES\n*Dynamic, Explicit\n, 1.\n*Bulk Viscosity\n0.06, 1.2\n**\n"
@@ -377,4 +389,4 @@ class Braid:
         self.inpString += "** INTERACTIONS\n**\n** Interaction: general_contact\n*Contact, op=NEW\n*Contact Inclusions, ALL EXTERIOR\n"
         self.inpString += "*Contact Property Assignment\n ,  , INTPROP-1\n** \n"
 
-        return 0
+        return self.inpString

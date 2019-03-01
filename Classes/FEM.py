@@ -89,6 +89,9 @@ class BeamMesh():
 
 
     def InpPart(self):
+        from inPy.inPy_Constants import PI
+        RotInertia = 0.001
+
         FileStr = "*PART, NAME="+self.Namestr+"\n*NODE, NSET="+str(self.Namestr)+"\n"
         for i in (self.NodeList):
             FileStr += i.string()+"\n"
