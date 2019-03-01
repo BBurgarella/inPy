@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Backend namespace &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Classes namespace" href="Classes.html" />
+    <link rel="prev" title="How to install inPy ?" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Backend namespace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Backend.BackendPlot">Backend.BackendPlot module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Classes.html">Classes namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Backend namespace</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Backend.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="backend-namespace">
+<h1>Backend namespace<a class="headerlink" href="#backend-namespace" title="Permalink to this headline">¶</a></h1>
+<p>inPy comes with two backends currently used to preview the structure that you are working on
+you can choose between Matplotlib (<a class="reference external" href="https://matplotlib.org/">https://matplotlib.org/</a>) which widely available but you might encounter performance issues
+and Mayavi (<a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">https://docs.enthought.com/mayavi/mayavi/</a>) which features far better performance but you might have compatibility issues
+(if, for example did not work for me when using remote desktop in windows)</p>
+<p>if the future, I would like to provide an “inp” and “APDL” backend choice so that the end user can generate
+structures both for Abaqus and Ansys</p>
+<div class="section" id="module-Backend.BackendPlot">
+<span id="backend-backendplot-module"></span><h2>Backend.BackendPlot module<a class="headerlink" href="#module-Backend.BackendPlot" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="Backend.BackendPlot.Plot_Path">
+<code class="descclassname">Backend.BackendPlot.</code><code class="descname">Plot_Path</code><span class="sig-paren">(</span><em>Lx</em>, <em>Ly</em>, <em>Lz</em>, <em>fig_axes_Tuple=None</em>, <em>tube_radius=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Backend/BackendPlot.html#Plot_Path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Backend.BackendPlot.Plot_Path" title="Permalink to this definition">¶</a></dt>
+<dd><p>if matplotlib is the backend, this function is just a wrapper
+for matplotlib’s plot in a 3d case</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Backend.BackendPlot.Plot_surface">
+<code class="descclassname">Backend.BackendPlot.</code><code class="descname">Plot_surface</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>fig_axes_Tuple=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Backend/BackendPlot.html#Plot_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Backend.BackendPlot.Plot_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>if mayavi is the backend, the mlab.mesh function
+is used to plot the surface</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Backend.BackendPlot.show">
+<code class="descclassname">Backend.BackendPlot.</code><code class="descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Backend/BackendPlot.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Backend.BackendPlot.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Classes.html" class="btn btn-neutral float-right" title="Classes namespace" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="How to install inPy ?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Classes namespace &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functions namespace" href="Functions.html" />
+    <link rel="prev" title="Backend namespace" href="Backend.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Backend.html">Backend namespace</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Classes namespace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.Assembly">Classes.Assembly module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.FEM">Classes.FEM module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.Geometry">Classes.Geometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.Path">Classes.Path module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.RigidBodies">Classes.RigidBodies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Classes.Wired_Structures">Classes.Wired_Structures module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Classes namespace</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="classes-namespace">
+<h1>Classes namespace<a class="headerlink" href="#classes-namespace" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-Classes.Assembly">
+<span id="classes-assembly-module"></span><h2>Classes.Assembly module<a class="headerlink" href="#module-Classes.Assembly" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.Assembly.Instance">
+<em class="property">class </em><code class="descclassname">Classes.Assembly.</code><code class="descname">Instance</code><span class="sig-paren">(</span><em>ElementType=None</em>, <em>FirstNode=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Assembly.html#Instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Assembly.Instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Assembly.Instance.Get_NodeID">
+<code class="descname">Get_NodeID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Assembly.html#Instance.Get_NodeID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Assembly.Instance.Get_NodeID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple method to get the current node number and automatically increment to the next number</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.Assembly.Model">
+<em class="property">class </em><code class="descclassname">Classes.Assembly.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>InstanceList=[]</em>, <em>FirstNode=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Assembly.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Assembly.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Assembly.Model.GenerateINP">
+<code class="descname">GenerateINP</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Assembly.html#Model.GenerateINP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Assembly.Model.GenerateINP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes all the instances in the InstanceList and
+call their respective Generate_PartINP_String keeping track of the node numbers</p>
+<p>Then all all their respective Generate_AssemblyINP_String</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.Assembly.Model.Preview">
+<code class="descname">Preview</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Assembly.html#Model.Preview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Assembly.Model.Preview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Classes.FEM">
+<span id="classes-fem-module"></span><h2>Classes.FEM module<a class="headerlink" href="#module-Classes.FEM" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.FEM.BeamMesh">
+<em class="property">class </em><code class="descclassname">Classes.FEM.</code><code class="descname">BeamMesh</code><span class="sig-paren">(</span><em>Namestr</em>, <em>ElemType</em>, <em>Radius</em>, <em>TypeStr</em>, <em>PosStr</em>, <em>NodeList=[]</em>, <em>ElemList=[]</em>, <em>Node0=1</em>, <em>Elem0=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#BeamMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.BeamMesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.FEM.BeamMesh.InpPart">
+<code class="descname">InpPart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#BeamMesh.InpPart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.BeamMesh.InpPart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.FEM.EmbededBeam">
+<em class="property">class </em><code class="descclassname">Classes.FEM.</code><code class="descname">EmbededBeam</code><span class="sig-paren">(</span><em>BeamMesh</em>, <em>BundleR</em>, <em>FilR</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#EmbededBeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.EmbededBeam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.FEM.EmbededBeam.Generate">
+<code class="descname">Generate</code><span class="sig-paren">(</span><em>Config=['Truss', 'Beam']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#EmbededBeam.Generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.EmbededBeam.Generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.FEM.LineElement">
+<em class="property">class </em><code class="descclassname">Classes.FEM.</code><code class="descname">LineElement</code><span class="sig-paren">(</span><em>Node1</em>, <em>Node2</em>, <em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#LineElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.LineElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.FEM.LineElement.string">
+<code class="descname">string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#LineElement.string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.LineElement.string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.FEM.node">
+<em class="property">class </em><code class="descclassname">Classes.FEM.</code><code class="descname">node</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z</em>, <em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.FEM.node.string">
+<code class="descname">string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/FEM.html#node.string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.FEM.node.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used to generate the inp instructions to generate the node in abaqus
+no parameter is required and the output is directly a string that can be added
+to an inp file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Classes.Geometry">
+<span id="classes-geometry-module"></span><h2>Classes.Geometry module<a class="headerlink" href="#module-Classes.Geometry" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.Geometry.Order3Base">
+<em class="property">class </em><code class="descclassname">Classes.Geometry.</code><code class="descname">Order3Base</code><span class="sig-paren">(</span><em>e1=[1, 0, 0], e2=[0, 1, 0], e3=[0, 0, 1], BuildFromThis=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Geometry.html#Order3Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Geometry.Order3Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Used to store 3D linear algebra bases
+three attribues: e1, e2 and e3, corresponding to the
+three vectors</p>
+<p>The vector given as entry will always be normalized</p>
+<p>__getitem__() is defined so that you can call
+an axis by its index or char reference (x, y or z)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.Geometry.ParametricLine">
+<em class="property">class </em><code class="descclassname">Classes.Geometry.</code><code class="descname">ParametricLine</code><span class="sig-paren">(</span><em>VectorTuple</em>, <em>InterceptTuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Geometry.html#ParametricLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Geometry.ParametricLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Geometry.ParametricLine.MakeLinearMatrix">
+<code class="descname">MakeLinearMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Geometry.html#ParametricLine.MakeLinearMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Geometry.ParametricLine.MakeLinearMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Classes.Path">
+<span id="classes-path-module"></span><h2>Classes.Path module<a class="headerlink" href="#module-Classes.Path" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.Path.path">
+<em class="property">class </em><code class="descclassname">Classes.Path.</code><code class="descname">path</code><span class="sig-paren">(</span><em>Lx=[]</em>, <em>Ly=[]</em>, <em>Lz=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Path.path.Init3DHelix">
+<code class="descname">Init3DHelix</code><span class="sig-paren">(</span><em>theta</em>, <em>DirectionParam</em>, <em>Pitch</em>, <em>Nby</em>, <em>Dbyin</em>, <em>Dbyout</em>, <em>PlaitSegments</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.Init3DHelix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.Init3DHelix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Path.path.Init3DSinus">
+<code class="descname">Init3DSinus</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>Omega</em>, <em>Phi</em>, <em>R0</em>, <em>Cth</em>, <em>Th0</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.Init3DSinus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.Init3DSinus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The linear matrix parameter
+is defined as follow:
+[[Cx,Cy,Cz],</p>
+<blockquote>
+<div>[Ax,Ay,Az]]</div></blockquote>
+<p>Équation paramétrique de la droite
+{x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
+<p>Équation du sinus:
+définie en coordonées cylindriques autour de x
+x -&gt; x ; y -&gt; r sin(theta) ; y -&gt; r cos(theta)
+{r = R0*sin(Omega*x+Phi), theta = Cth*x+Th0}</p>
+<p>OffX, OffY and OffZ are used to add offset to the
+filaments generate (between each filament in a strand
+for example)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.Path.path.InitLinear">
+<code class="descname">InitLinear</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.InitLinear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.InitLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Équation paramétrique de la droite
+{x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.Path.path.MakeNodeList">
+<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.MakeNodeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Classes.RigidBodies">
+<span id="classes-rigidbodies-module"></span><h2>Classes.RigidBodies module<a class="headerlink" href="#module-Classes.RigidBodies" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.RigidBodies.Pulley">
+<em class="property">class </em><code class="descclassname">Classes.RigidBodies.</code><code class="descname">Pulley</code><span class="sig-paren">(</span><em>Name, Density, ShapeString, ShapeArgs, RotInertiaMatrix=None, CenterPoint=[0, 0, 0], RotVect=[0, 0, 0], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#Pulley"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.Pulley" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.RigidBodies.rigid_Body" title="Classes.RigidBodies.rigid_Body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Classes.RigidBodies.rigid_Body</span></code></a></p>
+<p>Subclass of rigid_Body, used to define pulleys.</p>
+<p>New attributes:
+ShapeString –&gt; defines the type of pulley,
+admissible values are “Cyl” (Cylinder), “V” (Vshape contact surface), “U” (U shape contact surface) and “I” (Cylinder with borders)</p>
+<p>ShapeArgs –&gt; Tuple used to specify the shape-related parameters</p>
+<dl class="method">
+<dt id="Classes.RigidBodies.Pulley.Draw">
+<code class="descname">Draw</code><span class="sig-paren">(</span><em>Sides=100</em>, <em>color=(0.6623123890959252</em>, <em>0.16553779724696682</em>, <em>0.29395608115907634)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#Pulley.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.Pulley.Draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.RigidBodies.Pulley.PolygonString">
+<code class="descname">PolygonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#Pulley.PolygonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.Pulley.PolygonString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.RigidBodies.SquareSectionBar">
+<em class="property">class </em><code class="descclassname">Classes.RigidBodies.</code><code class="descname">SquareSectionBar</code><span class="sig-paren">(</span><em>Name, Density, ShapeArgs, RotInertiaMatrix=None, CenterPoint=[0, 0, 0], RotVect=[0, 0, 0]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#SquareSectionBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.SquareSectionBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.RigidBodies.rigid_Body" title="Classes.RigidBodies.rigid_Body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Classes.RigidBodies.rigid_Body</span></code></a></p>
+<dl class="method">
+<dt id="Classes.RigidBodies.SquareSectionBar.Draw">
+<code class="descname">Draw</code><span class="sig-paren">(</span><em>color=(0.49103715322632346</em>, <em>0.5014558753130457</em>, <em>0.9880813822536657)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#SquareSectionBar.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.SquareSectionBar.Draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.RigidBodies.SquareSectionBar.PolygonString">
+<code class="descname">PolygonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#SquareSectionBar.PolygonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.SquareSectionBar.PolygonString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Classes.RigidBodies.random">
+<code class="descclassname">Classes.RigidBodies.</code><code class="descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#Classes.RigidBodies.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="Classes.RigidBodies.rigid_Body">
+<em class="property">class </em><code class="descclassname">Classes.RigidBodies.</code><code class="descname">rigid_Body</code><span class="sig-paren">(</span><em>Name, Density, RotInertiaMatrix=None, CenterPoint=[0, 0, 0], RotVect=[0, 0, 0], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#rigid_Body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.rigid_Body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">inPy.Classes.Assembly.Instance</span></code></p>
+<p>Master class, all the other classes should herit from this one</p>
+<dl class="method">
+<dt id="Classes.RigidBodies.rigid_Body.Calc_Rotary_intertia">
+<code class="descname">Calc_Rotary_intertia</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#rigid_Body.Calc_Rotary_intertia"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.rigid_Body.Calc_Rotary_intertia" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function is empty here but must be redefined in subclasses</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.RigidBodies.rigid_Body.Generate_AssemblyINP_String">
+<code class="descname">Generate_AssemblyINP_String</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#rigid_Body.Generate_AssemblyINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.rigid_Body.Generate_AssemblyINP_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.RigidBodies.rigid_Body.Generate_PartINP_String">
+<code class="descname">Generate_PartINP_String</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#rigid_Body.Generate_PartINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.rigid_Body.Generate_PartINP_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the string to
+add to the inp when generating the parts</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Classes.Wired_Structures">
+<span id="classes-wired-structures-module"></span><h2>Classes.Wired_Structures module<a class="headerlink" href="#module-Classes.Wired_Structures" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Classes.Wired_Structures.Braid">
+<em class="property">class </em><code class="descclassname">Classes.Wired_Structures.</code><code class="descname">Braid</code><span class="sig-paren">(</span><em>Pitch, Nby, Dbyin, BraidThickness, PlaitSegments, R, Config=['Truss', 'Beam'], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">inPy.Classes.Assembly.Instance</span></code></p>
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.Create_BCINP_String">
+<code class="descname">Create_BCINP_String</code><span class="sig-paren">(</span><em>Value</em>, <em>FrictionCoef</em>, <em>Type='Force'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Create_BCINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Create_BCINP_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.Draw">
+<code class="descname">Draw</code><span class="sig-paren">(</span><em>SectionFunction=&lt;function circlespacking&gt;</em>, <em>Secargs=None</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.Generate_AssemblyINP_String">
+<code class="descname">Generate_AssemblyINP_String</code><span class="sig-paren">(</span><em>R=0</em>, <em>AddDummy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Generate_AssemblyINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Generate_AssemblyINP_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.Generate_CouplingINP_String">
+<code class="descname">Generate_CouplingINP_String</code><span class="sig-paren">(</span><em>R=0</em>, <em>AddDummy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Generate_CouplingINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Generate_CouplingINP_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.Generate_PartINP_String">
+<code class="descname">Generate_PartINP_String</code><span class="sig-paren">(</span><em>R=0</em>, <em>AddDummy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Generate_PartINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Generate_PartINP_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Braid.circlespacking">
+<code class="descname">circlespacking</code><span class="sig-paren">(</span><em>yarnR</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Braid.circlespacking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Classes.Wired_Structures.Strand">
+<em class="property">class </em><code class="descclassname">Classes.Wired_Structures.</code><code class="descname">Strand</code><span class="sig-paren">(</span><em>InitShapeFunction</em>, <em>PathGenerationFunction</em>, <em>Line</em>, <em>Shargs=None</em>, <em>Shkwargs=None</em>, <em>Pthargs=None</em>, <em>Pthkwargs=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Strand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Strand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.Draw">
+<code class="descname">Draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Strand.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Strand.Draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.GenerateInpString">
+<code class="descname">GenerateInpString</code><span class="sig-paren">(</span><em>Config=['Truss', 'Beam'], FileName=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Strand.GenerateInpString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Strand.GenerateInpString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.GeneratePaths">
+<code class="descname">GeneratePaths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Strand.GeneratePaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Strand.GeneratePaths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="Classes.Wired_Structures.Strand.path">
+<em class="property">class </em><code class="descname">path</code><span class="sig-paren">(</span><em>Lx=[]</em>, <em>Ly=[]</em>, <em>Lz=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.path.Init3DHelix">
+<code class="descname">Init3DHelix</code><span class="sig-paren">(</span><em>theta</em>, <em>DirectionParam</em>, <em>Pitch</em>, <em>Nby</em>, <em>Dbyin</em>, <em>Dbyout</em>, <em>PlaitSegments</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.Init3DHelix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.path.Init3DSinus">
+<code class="descname">Init3DSinus</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>Omega</em>, <em>Phi</em>, <em>R0</em>, <em>Cth</em>, <em>Th0</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.Init3DSinus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The linear matrix parameter
+is defined as follow:
+[[Cx,Cy,Cz],</p>
+<blockquote>
+<div>[Ax,Ay,Az]]</div></blockquote>
+<p>Équation paramétrique de la droite
+{x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
+<p>Équation du sinus:
+définie en coordonées cylindriques autour de x
+x -&gt; x ; y -&gt; r sin(theta) ; y -&gt; r cos(theta)
+{r = R0*sin(Omega*x+Phi), theta = Cth*x+Th0}</p>
+<p>OffX, OffY and OffZ are used to add offset to the
+filaments generate (between each filament in a strand
+for example)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.path.InitLinear">
+<code class="descname">InitLinear</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.InitLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Équation paramétrique de la droite
+{x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Classes.Wired_Structures.Strand.path.MakeNodeList">
+<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Functions.html" class="btn btn-neutral float-right" title="Functions namespace" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Backend.html" class="btn btn-neutral float-left" title="Backend namespace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

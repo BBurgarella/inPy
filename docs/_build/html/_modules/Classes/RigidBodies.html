@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Classes.RigidBodies &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Backend.html">Backend namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Classes.html">Classes namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>Classes.RigidBodies</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Classes.RigidBodies</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">copy</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">random</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">inPy.Classes.Assembly</span> <span class="k">import</span> <span class="n">Instance</span>
+
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to import some modules</span><span class="se">\n</span><span class="s2">functions and classes might not work properly&quot;</span><span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In this file, all the classes defined will be used to generate</span>
+<span class="sd">Rigid Bodies</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="rigid_Body"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.rigid_Body">[docs]</a><span class="k">class</span> <span class="nc">rigid_Body</span><span class="p">(</span><span class="n">Instance</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Master class, all the other classes should herit from this one</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Density</span><span class="p">,</span> <span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">CenterPoint</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">RotVect</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A Rigid body of any shape should be defined by a name, a Matrix to store its</span>
+<span class="sd">        rotary intertias, a center point (Should always refer to the center of mass), a translation vector,</span>
+<span class="sd">        and a rotation vector</span>
+
+<span class="sd">        The rotation vector is defined as the angles (rad) to respectively rotate around each axis of the</span>
+<span class="sd">        chosen base</span>
+
+<span class="sd">        I only use **kwargs because I dislike how its harder to know what an *arg will be used for</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">inPy.Classes.Geometry</span> <span class="k">import</span> <span class="n">Order3Base</span>
+        <span class="kn">from</span> <span class="nn">inPy.Functions.linalg</span> <span class="k">import</span> <span class="n">RotVect_to_RotMat</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Name of the rigid body</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">Name</span>
+
+        <span class="c1">#Density</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Density</span> <span class="o">=</span> <span class="n">Density</span>
+
+        <span class="c1"># Mass center</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span> <span class="o">=</span> <span class="n">CenterPoint</span>
+
+        <span class="c1"># Rotary intertia matrix</span>
+        <span class="c1"># Following abaqus notation</span>
+        <span class="c1"># [[I11,I12,I13],</span>
+        <span class="c1">#  [I12,I22,I23],</span>
+        <span class="c1">#  [I13,I23,I33]]</span>
+        <span class="c1"># If this is None, inPy will attempt to calculate it with the Calc_Rotary_intertia method</span>
+        <span class="c1"># my advice would be to override this method for all the subclasses to match the shape</span>
+        <span class="c1"># By default, it will only return:</span>
+        <span class="c1"># [[0.001,0,0],</span>
+        <span class="c1">#  [0,0.001,0],</span>
+        <span class="c1">#  [0,0,0.001]]</span>
+        <span class="c1"># Because it is therefore assumed that the rotary intertia is negligeable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.001</span><span class="p">]])</span>
+
+        <span class="c1"># Rotation vector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RotVect</span> <span class="o">=</span> <span class="n">RotVect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RotMat</span> <span class="o">=</span> <span class="n">RotVect_to_RotMat</span><span class="p">(</span><span class="n">RotVect</span><span class="p">)</span>
+
+        <span class="c1"># Generation method</span>
+        <span class="c1"># None =&gt; by giving a series of points</span>
+        <span class="c1"># Extrude =&gt; Extrude a surface over a lengh</span>
+        <span class="c1"># Revolution =&gt; Takes a surface and makes a revolution solid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GenMethod</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="rigid_Body.Generate_PartINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.rigid_Body.Generate_PartINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Generate_PartINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function returns the string to</span>
+<span class="sd">        add to the inp when generating the parts</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#raise ValueError(&quot;The Generate_INP_String method have not been overrided for this subclass and\</span>
+        <span class="c1">#is therefore empty, you must override this method when subclassing the rigid_Body class&quot;)</span>
+
+        <span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># First we need to create an empty part</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">*Part, name=</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GenMethod</span> <span class="o">==</span> <span class="s2">&quot;Revolution&quot;</span><span class="p">:</span>
+            <span class="c1"># Create analytical surface</span>
+            <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Surface, type=REVOLUTION, name=</span><span class="si">{}</span><span class="s2">-Surface</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="n">inpString</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PolygonString</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GenMethod</span> <span class="o">==</span> <span class="s2">&quot;Extrusion&quot;</span><span class="p">:</span>
+            <span class="c1"># Create analytical surface</span>
+            <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Surface, type=CYLINDER, name=</span><span class="si">{}</span><span class="s2">-Surface</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="c1">#inpString += &quot;{},{}\n&quot;.format(OriginString,XLocalString)</span>
+            <span class="n">inpString</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PolygonString</span><span class="p">()</span>
+
+        <span class="c1"># Create the reference point</span>
+        <span class="n">Node_ID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Get_NodeID</span><span class="p">()</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Node</span><span class="se">\n</span><span class="si">{}</span><span class="s2">, 0., 0., 0.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Node_ID</span><span class="p">)</span>
+        <span class="c1"># Node sets for the reference point</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset,nset=</span><span class="si">{}</span><span class="s2">-RefPt_, internal</span><span class="se">\n</span><span class="si">{}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="n">Node_ID</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=set-RefPt</span><span class="si">{}</span><span class="s2">, internal</span><span class="se">\n</span><span class="si">{}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="n">Node_ID</span><span class="p">)</span>
+
+
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*End Part</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">inpString</span></div>
+
+<div class="viewcode-block" id="rigid_Body.Generate_AssemblyINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.rigid_Body.Generate_AssemblyINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Generate_AssemblyINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PI</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this function returns the string to add to the inp file</span>
+<span class="sd">        when building the assembly</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#raise ValueError(&quot;The Generate_INP_String method have not been overrided for this subclass and\</span>
+        <span class="c1">#is therefore empty, you must override this method when subclassing the rigid_Body class&quot;)</span>
+
+        <span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># First we need to create an empty part</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">*Instance, name=</span><span class="si">{}</span><span class="s2">, part=</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="c1"># Translation of the center point</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1">#Rotations</span>
+        <span class="n">OriginString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">XLocalString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">YLocalString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">ZLocalString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1">#Rotation #1</span>
+        <span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">OriginString</span><span class="p">,</span><span class="n">XLocalString</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">RotVect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">PI</span><span class="p">)</span>
+        <span class="c1">#Rotation #2</span>
+        <span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">OriginString</span><span class="p">,</span><span class="n">YLocalString</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">RotVect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">PI</span><span class="p">)</span>
+        <span class="c1">#Rotation #3</span>
+        <span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">OriginString</span><span class="p">,</span><span class="n">ZLocalString</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">RotVect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">PI</span><span class="p">)</span>
+
+        <span class="c1"># Create the rigid body reference in abaqus</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Rigid Body, ref node=</span><span class="si">{}</span><span class="s2">-RefPt_, analytical surface=</span><span class="si">{}</span><span class="s2">-Surface</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Element, type=MASS, elset=Set-RefPt</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">Intertia_MASS_</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;1, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Mass, elset=Set-RefPt</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">Intertia_MASS_</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;10.,</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Element, type=ROTARYI, elset=Set-RefPt</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">Intertia_ROTI_</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;2, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Rotary Inertia, elset=Set-RefPt</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">Intertia_ROTI_</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>\
+        <span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">RotInertiaMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1"># End the instance definition</span>
+        <span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*End Instance</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">inpString</span></div>
+
+<div class="viewcode-block" id="rigid_Body.Calc_Rotary_intertia"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.rigid_Body.Calc_Rotary_intertia">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_Rotary_intertia</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this function is empty here but must be redefined in subclasses</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The Calc_Rotary_intertia method have not been overrided for this subclass and</span><span class="se">\</span>
+<span class="s2">        is therefore empty, you must override this method when subclassing the rigid_Body class&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Pulley"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.Pulley">[docs]</a><span class="k">class</span> <span class="nc">Pulley</span><span class="p">(</span><span class="n">rigid_Body</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subclass of rigid_Body, used to define pulleys.</span>
+
+<span class="sd">    New attributes:</span>
+<span class="sd">    ShapeString --&gt; defines the type of pulley,</span>
+<span class="sd">    admissible values are &quot;Cyl&quot; (Cylinder), &quot;V&quot; (Vshape contact surface), &quot;U&quot; (U shape contact surface) and &quot;I&quot; (Cylinder with borders)</span>
+
+<span class="sd">    ShapeArgs --&gt; Tuple used to specify the shape-related parameters</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Density</span><span class="p">,</span><span class="n">ShapeString</span><span class="p">,</span> <span class="n">ShapeArgs</span><span class="p">,</span> <span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">CenterPoint</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">RotVect</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># init parent class (rigid_Body)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Density</span><span class="p">,</span> <span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="n">RotInertiaMatrix</span><span class="p">,</span> <span class="n">CenterPoint</span><span class="o">=</span><span class="n">CenterPoint</span><span class="p">,</span> <span class="n">RotVect</span> <span class="o">=</span> <span class="n">RotVect</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ShapeString</span> <span class="o">==</span> <span class="s2">&quot;Cyl&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Radius</span> <span class="o">=</span> <span class="n">ShapeArgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span> <span class="o">=</span> <span class="n">ShapeArgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">GenMethod</span> <span class="o">=</span> <span class="s2">&quot;Revolution&quot;</span>
+
+<div class="viewcode-block" id="Pulley.PolygonString"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.Pulley.PolygonString">[docs]</a>    <span class="k">def</span> <span class="nf">PolygonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">PolyString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Draw a square that will be revoluted</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot;START, 0., </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Radius</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Radius</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, 0, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Radius</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PolyString</span></div>
+
+<div class="viewcode-block" id="Pulley.Draw"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.Pulley.Draw">[docs]</a>    <span class="k">def</span> <span class="nf">Draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Sides</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="p">()),</span><span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Create the data.</span>
+        <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">mgrid</span>
+        <span class="kn">import</span> <span class="nn">inPy.Backend.BackendPlot</span> <span class="k">as</span> <span class="nn">PlotBundle</span>
+
+        <span class="c1"># Increments</span>
+        <span class="n">dRot</span><span class="p">,</span> <span class="n">incr</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="n">Sides</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="n">Sides</span>
+
+        <span class="c1"># make the table</span>
+        <span class="p">[</span><span class="n">z</span><span class="p">,</span><span class="n">theta</span><span class="p">]</span> <span class="o">=</span> <span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="p">:</span><span class="n">incr</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">:</span><span class="n">dRot</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Radius</span> <span class="c1"># r only needs to be defined onces thanks to broadcasting</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+
+        <span class="c1"># CenterPoint</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">Coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+        <span class="n">RealCoords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Coords</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">RotMat</span><span class="p">))</span>
+
+        <span class="c1"># View it.</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_surface</span><span class="p">(</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standalone</span><span class="p">:</span>
+            <span class="n">PlotBundle</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fig</span></div></div>
+
+
+<div class="viewcode-block" id="SquareSectionBar"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.SquareSectionBar">[docs]</a><span class="k">class</span> <span class="nc">SquareSectionBar</span><span class="p">(</span><span class="n">rigid_Body</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Density</span><span class="p">,</span> <span class="n">ShapeArgs</span><span class="p">,</span> <span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">CenterPoint</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">RotVect</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]):</span>
+
+        <span class="c1"># init parent class (rigid_Body)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Density</span><span class="p">,</span> <span class="n">RotInertiaMatrix</span> <span class="o">=</span> <span class="n">RotInertiaMatrix</span><span class="p">,</span> <span class="n">CenterPoint</span><span class="o">=</span><span class="n">CenterPoint</span><span class="p">,</span> <span class="n">RotVect</span> <span class="o">=</span> <span class="n">RotVect</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">L1</span> <span class="o">=</span> <span class="n">ShapeArgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L2</span> <span class="o">=</span> <span class="n">ShapeArgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span> <span class="o">=</span> <span class="n">ShapeArgs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GenMethod</span> <span class="o">=</span> <span class="s2">&quot;Extrusion&quot;</span>
+
+<div class="viewcode-block" id="SquareSectionBar.PolygonString"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.SquareSectionBar.PolygonString">[docs]</a>    <span class="k">def</span> <span class="nf">PolygonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">PolyString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Draw a square that will be revoluted</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot;START, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">PolyString</span> <span class="o">+=</span> <span class="s2">&quot; LINE, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PolyString</span></div>
+
+
+<div class="viewcode-block" id="SquareSectionBar.Draw"><a class="viewcode-back" href="../../Classes.html#Classes.RigidBodies.SquareSectionBar.Draw">[docs]</a>    <span class="k">def</span> <span class="nf">Draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="p">()),</span><span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Create the data.</span>
+        <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">mgrid</span>
+        <span class="kn">import</span> <span class="nn">inPy.Backend.BackendPlot</span> <span class="k">as</span> <span class="nn">PlotBundle</span>
+
+        <span class="c1"># make the table</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L1</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span> <span class="c1"># Coordinates going in clockwise and positive z order</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lengh</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+
+        <span class="c1"># CenterPoint</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CenterPoint</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">Coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+        <span class="n">RealCoords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Coords</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">RotMat</span><span class="p">))</span>
+
+        <span class="c1"># View it.</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_surface</span><span class="p">(</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">RealCoords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standalone</span><span class="p">:</span>
+            <span class="n">PlotBundle</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fig</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

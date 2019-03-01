@@ -1,0 +1,590 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Classes.Wired_Structures &mdash; inPy 0.2a.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> inPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">How to install inPy ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Backend.html">Backend namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Classes.html">Classes namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Functions.html">Functions namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AbaqusScripting.html">AbaqusScripting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html">2019 - 03 - 01</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id2">2019 - 02 -28</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Patch Notes.html#id3">2019 - 02 -27</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">inPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>Classes.Wired_Structures</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Classes.Wired_Structures</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">copy</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">inPy.Classes.Assembly</span> <span class="k">import</span> <span class="n">Instance</span>
+    <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PyVersion</span>
+
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to import some modules</span><span class="se">\n</span><span class="s2">functions and classes might not work properly&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Strand"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Strand">[docs]</a><span class="k">class</span> <span class="nc">Strand</span><span class="p">:</span>
+    <span class="c1"># Local imports</span>
+    <span class="kn">from</span> <span class="nn">inPy.Classes.Path</span> <span class="k">import</span> <span class="n">path</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">InitShapeFunction</span><span class="p">,</span><span class="n">PathGenerationFunction</span><span class="p">,</span><span class="n">Line</span><span class="p">,</span><span class="n">Shargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">Shkwargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">Pthargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">Pthkwargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The init shape function will be used to determine the starting points of the</span>
+<span class="sd">        bundle (For example, in the case of a perfectly circular packing arrangemet)</span>
+<span class="sd">        you can use the inPy circlespacking() function. This function should return a</span>
+<span class="sd">        matrix with shape (Nx2) with N the number of filaments</span>
+
+<span class="sd">        The PathGenerationFunction will be used to determine how to grow fibers from these</span>
+<span class="sd">        seeds, and example function could be the inPy.Path.init3Dsinus() method.</span>
+<span class="sd">        This function will be called on the matrix returned by the shape function</span>
+
+
+<span class="sd">        Shapeargs should be a tuple of arguments to give to the shape generation funcion</span>
+<span class="sd">        Pathargs the same but for the path generation.</span>
+
+<span class="sd">        X0 gives the x coordinate of the plan that will be normal to the fibers</span>
+<span class="sd">        the fiber axis is for now assumed to be along x</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShapeFunction</span> <span class="o">=</span> <span class="n">InitShapeFunction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PathGenerationFunction</span> <span class="o">=</span> <span class="n">PathGenerationFunction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KwargsDict</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathTable</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Shargs</span> <span class="o">=</span> <span class="n">Shargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Shkwargs</span> <span class="o">=</span> <span class="n">Shkwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pthargs</span> <span class="o">=</span> <span class="n">Pthargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pthkwargs</span> <span class="o">=</span> <span class="n">Pthkwargs</span>
+
+<div class="viewcode-block" id="Strand.GeneratePaths"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Strand.GeneratePaths">[docs]</a>    <span class="k">def</span> <span class="nf">GeneratePaths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SeedMatrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShapeFunction</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Shargs</span><span class="p">,</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">Shkwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathTable</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PathGenerationFunction</span><span class="p">(</span><span class="s2">&quot;Sinus&quot;</span><span class="p">,</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Pthargs</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;OffY&quot;</span><span class="p">:</span> <span class="n">Seed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;OffZ&quot;</span><span class="p">:</span> <span class="n">Seed</span><span class="p">[</span><span class="mi">1</span><span class="p">]}))</span> <span class="k">for</span> <span class="n">Seed</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SeedMatrix</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Strand.Draw"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Strand.Draw">[docs]</a>    <span class="k">def</span> <span class="nf">Draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+        <span class="kn">from</span> <span class="nn">mayavi</span> <span class="k">import</span> <span class="n">mlab</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathTable</span><span class="p">:</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Lz</span><span class="p">,</span><span class="n">line_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Shargs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">tube_sides</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()))</span>
+        <span class="n">mlab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Strand.GenerateInpString"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Strand.GenerateInpString">[docs]</a>    <span class="k">def</span> <span class="nf">GenerateInpString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Config</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Truss&quot;</span><span class="p">,</span><span class="s2">&quot;Beam&quot;</span><span class="p">],</span><span class="n">FileName</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">inPy.Classes.FEM</span> <span class="k">import</span> <span class="n">BeamMesh</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">FileString</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">ID</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">Path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathTable</span><span class="p">:</span>
+            <span class="n">NodeList</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">MakeNodeList</span><span class="p">(</span><span class="n">ID0</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">ID</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="s2">&quot;Beam</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID</span><span class="p">),</span><span class="s1">&#39;B31&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Shargs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;Beam&quot;</span><span class="p">,</span><span class="s2">&quot;Out&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeList</span><span class="p">))</span>
+            <span class="n">FileString</span> <span class="o">=</span> <span class="n">FileString</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">InpPart</span><span class="p">()</span>
+            <span class="n">ID</span> <span class="o">=</span> <span class="n">ID</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Beam0: </span><span class="si">{}</span><span class="s2"> Beam1: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Z</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">FileName</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">File</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">FileName</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">File</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">FileString</span><span class="p">)</span>
+            <span class="n">File</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">FileString</span></div></div>
+
+
+<div class="viewcode-block" id="Braid"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid">[docs]</a><span class="k">class</span> <span class="nc">Braid</span><span class="p">(</span><span class="n">Instance</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">inPy.Functions.Geometry</span> <span class="k">import</span> <span class="n">circlespacking</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Pitch</span><span class="p">,</span><span class="n">Nby</span><span class="p">,</span><span class="n">Dbyin</span><span class="p">,</span><span class="n">BraidThickness</span><span class="p">,</span><span class="n">PlaitSegments</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">Config</span> <span class="o">=</span>  <span class="p">[</span><span class="s2">&quot;Truss&quot;</span><span class="p">,</span><span class="s2">&quot;Beam&quot;</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Local imports</span>
+        <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PI</span>
+        <span class="kn">from</span> <span class="nn">inPy.Classes.Path</span> <span class="k">import</span> <span class="n">path</span>
+
+        <span class="sd">&quot;&quot;&quot; Credits to Louis for most of the code in this class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pitch</span> <span class="o">=</span> <span class="n">Pitch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">R</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span> <span class="o">=</span> <span class="n">BraidThickness</span><span class="o">/</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FilR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nby</span> <span class="o">=</span> <span class="n">Nby</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Dbyin</span> <span class="o">=</span> <span class="n">Dbyin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BraidThickness</span> <span class="o">=</span> <span class="n">BraidThickness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Dbyout</span> <span class="o">=</span> <span class="n">Dbyin</span><span class="o">+</span><span class="n">BraidThickness</span><span class="o">*</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PlaitSegments</span> <span class="o">=</span> <span class="n">PlaitSegments</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Config</span> <span class="o">=</span> <span class="n">Config</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">Nby</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">PI</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nby</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Init3DHelix</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span><span class="s2">&quot;CCW&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Pitch</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nby</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Dbyin</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Dbyout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">PlaitSegments</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Init3DHelix</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span><span class="s2">&quot;CW&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Pitch</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nby</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Dbyin</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Dbyout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">PlaitSegments</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Braid.Draw"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid.Draw">[docs]</a>    <span class="k">def</span> <span class="nf">Draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">SectionFunction</span><span class="o">=</span><span class="n">circlespacking</span><span class="p">,</span><span class="n">Secargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+        <span class="kn">import</span> <span class="nn">inPy.Backend.BackendPlot</span> <span class="k">as</span> <span class="nn">PlotBundle</span>
+
+        <span class="k">if</span> <span class="n">Secargs</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">Secargs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span><span class="p">)</span>
+
+        <span class="c1"># R = 0 should not be Used</span>
+        <span class="c1"># but just in case</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Rprime</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Rprime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span>
+        <span class="k">if</span> <span class="n">Rprime</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_Path</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Lz</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">tube_radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_Path</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Lz</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">tube_radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Coords</span> <span class="o">=</span> <span class="n">SectionFunction</span><span class="p">(</span><span class="o">*</span><span class="n">Secargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">Position</span> <span class="ow">in</span> <span class="n">Coords</span><span class="p">:</span>
+                    <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_Path</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span><span class="o">+</span><span class="n">Position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span><span class="o">+</span><span class="n">Position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">path</span><span class="o">.</span><span class="n">Lz</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">tube_radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">Position</span> <span class="ow">in</span> <span class="n">Coords</span><span class="p">:</span>
+                    <span class="n">fig</span> <span class="o">=</span> <span class="n">PlotBundle</span><span class="o">.</span><span class="n">Plot_Path</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span><span class="o">+</span><span class="n">Position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span><span class="o">+</span><span class="n">Position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">path</span><span class="o">.</span><span class="n">Lz</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">tube_radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standalone</span><span class="p">:</span>
+            <span class="n">PlotBundle</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="Braid.Generate_PartINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid.Generate_PartINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Generate_PartINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">AddDummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">inPy.Classes.FEM</span> <span class="k">import</span> <span class="n">BeamMesh</span><span class="p">,</span> <span class="n">EmbededBeam</span>
+        <span class="kn">from</span> <span class="nn">inPy.Functions.FEM</span> <span class="k">import</span> <span class="n">CreateDummyString</span>
+        <span class="n">NodeListCCW</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">NodeListCW</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">R</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Rprime</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Rprime</span> <span class="o">=</span> <span class="n">R</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nby</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
+            <span class="c1">#Node Generation CCW</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">MakeNodeListRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">MakeNodeList</span><span class="p">(</span><span class="n">ID0</span><span class="o">=</span><span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">FirstNode</span><span class="p">)</span>
+                <span class="n">NodeListCCW</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">=</span> <span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1">#Mesh Generation</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;BeamCCW&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;T3D2&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCCW</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;B31&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCCW</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">MakeNodeListRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CCWpath</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">MakeNodeList</span><span class="p">(</span><span class="n">ID0</span><span class="o">=</span><span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span><span class="n">YarnR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                    <span class="n">NodeListCCW</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">=</span> <span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="c1">#Mesh Generation</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;BeamCCW&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;T3D2&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCCW</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;B31&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCCW</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nby</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">MakeNodeListRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">MakeNodeList</span><span class="p">(</span><span class="n">ID0</span><span class="o">=</span><span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">NodeListCW</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">=</span> <span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1">#Mesh Generation</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;BeamCW&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;T3D2&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCW</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;B31&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCW</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">MakeNodeListRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CWpath</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">MakeNodeList</span><span class="p">(</span><span class="n">ID0</span><span class="o">=</span><span class="mi">1000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span><span class="n">YarnR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                    <span class="n">NodeListCW</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">=</span> <span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="c1">#Mesh Generation</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;BeamCW&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Truss&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;T3D2&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCW</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Beam&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BeamMesh</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s2">&quot;B31&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;OUT&quot;</span><span class="p">,</span><span class="n">NodeList</span><span class="o">=</span><span class="n">NodeListCW</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">MakeNodeListRes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))],</span><span class="n">Elem0</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">AddDummy</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="n">CreateDummyString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+                <span class="n">Validation</span> <span class="o">=</span> <span class="n">EmbededBeam</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">BundleR</span><span class="o">/</span><span class="n">Rprime</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">FilR</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="n">Validation</span><span class="o">.</span><span class="n">Generate</span><span class="p">(</span><span class="n">Config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">------------------------CW Beams Generated------------------------&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span></div>
+
+<div class="viewcode-block" id="Braid.Generate_AssemblyINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid.Generate_AssemblyINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Generate_AssemblyINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">AddDummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PyVersion</span>
+        <span class="c1">#Assembly</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">AddDummy</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">*Instance, name = DummyInstance, part  = dummy</span><span class="se">\n</span><span class="s2">*End Instance</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Node</span><span class="se">\n</span><span class="s2">      </span><span class="si">{}</span><span class="s2">,           0.,           0.,           0.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=DummySet, internal</span><span class="se">\n</span><span class="si">{}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=DummySet</span><span class="se">\n</span><span class="si">{}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CurrentNode</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Instance, name=&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN,part=&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*End Instance</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Instance, name=&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT,part=&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*End Instance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span></div>
+
+<div class="viewcode-block" id="Braid.Generate_CouplingINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid.Generate_CouplingINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Generate_CouplingINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">AddDummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="c1">#Set creation for Embeded beams</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">temp</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=m_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN</span><span class="se">\n</span><span class="s2"> &quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="o">+</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT</span><span class="se">\n</span><span class="s2"> &quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Surface, type=NODE, name =&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;_CNS, internal</span><span class="se">\n</span><span class="s2">s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="n">temp</span><span class="o">+=</span><span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">PyVersion</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Set creation for embeded beams: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Set creation for embeded beams: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">)</span>
+
+        <span class="c1">#Set creation for PBCs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">temp</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+            <span class="c1">#############################</span>
+            <span class="c1"># By convention, I always take the first node as the master</span>
+            <span class="c1"># and the last as the Slave</span>
+            <span class="c1">#############################</span>
+            <span class="c1"># Master node, Inside beam</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=m_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN</span><span class="se">\n</span><span class="s2"> &quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">MinNodeID</span><span class="o">+</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="c1"># Slave node, Inside beam</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;IN</span><span class="se">\n</span><span class="s2"> &quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">MaxNodeID</span><span class="o">+</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="c1"># Surface creation</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Surface, type=NODE, name =&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_CNS, internal</span><span class="se">\n</span><span class="s2">s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="c1"># Master node, Inside beam</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=m_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT</span><span class="se">\n</span><span class="s2"> &quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">MinNodeID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="c1"># Slave node, Inside beam</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Nset, nset=s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC, instance=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;OUT</span><span class="se">\n</span><span class="s2"> &quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">MaxNodeID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="c1"># Surface creation</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Surface, type=NODE, name =&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_CNS, internal</span><span class="se">\n</span><span class="s2">s_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+            <span class="n">temp</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Set creation for PBCs: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">---------------------------Sets created---------------------------&quot;</span><span class="p">)</span>
+        <span class="c1">#Coupling</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">temp</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Coupling, constraint name=Constraint-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, ref node=m_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, surface=&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;_CNS</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Kinematic</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+                    <span class="n">temp</span><span class="o">+=</span><span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">PyVersion</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Coupling creation for embeded beams: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Coupling creation for embeded beams: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">DL</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                <span class="c1"># Outside Beams</span>
+                <span class="k">if</span> <span class="n">DL</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_OUT_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">3</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">DUMMYSET,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                    <span class="c1">#Inside Beams</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_IN_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">3</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">DUMMYSET,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                <span class="k">elif</span> <span class="n">DL</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_OUT_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">2</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                    <span class="c1">#Inside Beams</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_IN_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">2</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_OUT_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">2</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_OUT_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+                    <span class="c1">#Inside Beams</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Config</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Constraint: PBC_IN_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Equation</span><span class="se">\n</span><span class="s2">2</span><span class="se">\n</span><span class="s2">M_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,-1.</span><span class="se">\n</span><span class="s2">S_&quot;</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="o">+</span><span class="s2">&quot;_IN_PBC,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">DL</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,1.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+
+            <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">temp</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">PyVersion</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Coupling creation for PBCs: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Coupling creation for PBCs: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="p">)</span>
+
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Element, type=MASS, elset=DUMMYSET</span><span class="se">\n</span><span class="s2">1, 1</span><span class="se">\n</span><span class="s2">*Mass, elset=DUMMYSET</span><span class="se">\n</span><span class="s2">1e-05,</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*End Assembly</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="c1">#Materials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;** MATERIALS</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;*Material, name=FiberMat</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;*Density</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot; 3.21,</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;*Elastic</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;420000., 0.3</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;** </span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="c1">#Set definitions</span>
+        <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">BeamList</span><span class="p">:</span>
+            <span class="c1"># First End, to apply BCs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;*Nset, nset=BCSet, instance=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Position</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+            <span class="c1"># Second End, to apply Forces</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="s2">&quot;*Nset, nset=ForceSet, instance=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">Namestr</span><span class="p">)</span><span class="o">+</span><span class="n">beam</span><span class="o">.</span><span class="n">Position</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">NodeList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ID</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span></div>
+
+<div class="viewcode-block" id="Braid.Create_BCINP_String"><a class="viewcode-back" href="../../Classes.html#Classes.Wired_Structures.Braid.Create_BCINP_String">[docs]</a>    <span class="k">def</span> <span class="nf">Create_BCINP_String</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Value</span><span class="p">,</span><span class="n">FrictionCoef</span><span class="p">,</span><span class="n">Type</span><span class="o">=</span><span class="s2">&quot;Force&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Amplitude, name=Amp-1, definition=SMOOTH STEP</span><span class="se">\n</span><span class="s2">             0.,              0.,              1.,              1.</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** INTERACTION PROPERTIES</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">*Surface Interaction, name=IntProp-1</span><span class="se">\n</span><span class="s2">*Friction</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">FrictionCoef</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">** ----------------------------------------------------------------</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Step, name=Step-1, nlgeom=YES</span><span class="se">\n</span><span class="s2">*Dynamic, Explicit</span><span class="se">\n</span><span class="s2">, 1.</span><span class="se">\n</span><span class="s2">*Bulk Viscosity</span><span class="se">\n</span><span class="s2">0.06, 1.2</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** BOUNDARY CONDITIONS</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">** Name: BC-1 Type: Displacement/Rotation</span><span class="se">\n</span><span class="s2">*Boundary, amplitude=Amp-1</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 1, 1</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 2, 2</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 4, 4</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 5, 5</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 6, 6</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">Type</span> <span class="o">==</span> <span class="s2">&quot;Displacement&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">** Name: BC-Imposed Type: Displacement/Rotation</span><span class="se">\n</span><span class="s2">*Boundary, amplitude=Amp-1</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 3, 3, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">elif</span> <span class="n">Type</span> <span class="o">==</span> <span class="s2">&quot;Force&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** LOADS</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;**</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** Name: Load-1   Type: Concentrated force</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Cload, amplitude=AMP-1</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;DUMMYSET, 3, &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;** INTERACTIONS</span><span class="se">\n</span><span class="s2">**</span><span class="se">\n</span><span class="s2">** Interaction: general_contact</span><span class="se">\n</span><span class="s2">*Contact, op=NEW</span><span class="se">\n</span><span class="s2">*Contact Inclusions, ALL EXTERIOR</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span> <span class="o">+=</span> <span class="s2">&quot;*Contact Property Assignment</span><span class="se">\n</span><span class="s2"> ,  , INTPROP-1</span><span class="se">\n</span><span class="s2">** </span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inpString</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Boris Burgarella
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
