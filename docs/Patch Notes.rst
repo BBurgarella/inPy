@@ -1,3 +1,6 @@
+Patch Notes V0.3
+================
+
 2019 - 03 - 01
 --------------
 
@@ -6,9 +9,7 @@ TODO
     - Write an assembly class to simplify inp generation
     - Implement a Preview method for the model
 
-  - Implemented two new classes in a new inPy.Classes.Assembly file. These classes are respectively the Model class,
-  gathering a series of instances to simplify the generation of inp file and the Instance class that should be
-  used as a master class for anything having a Generate_PartINP_String and Generate_AssemblyINP_String method.
+  - Implemented two new classes in a new inPy.Classes.Assembly file. These classes are respectively the Model class, gathering a series of instances to simplify the generation of inp file and the Instance class that should be used as a master class for anything having a Generate_PartINP_String and Generate_AssemblyINP_String method.
 
   status: implemented,tested and validated
 
@@ -25,12 +26,9 @@ TODO
 
   Status: implemented, tested and validated
 
-- Fixed a bug that caused the contact surface to be on the inside a generated SquareSectionBar
-instead of the outside
+- Fixed a bug that caused the contact surface to be on the inside a generated SquareSectionBar instead of the outside
 
-- Added a SquareSectionBar rigid body, defined by a lengh and two dimensions L1 and L2
-
-status implemented, tested and validated
+- Added a SquareSectionBar rigid body, defined by a lengh and two dimensions L1 and L2 status implemented, tested and validated
 
 - added two new methods to the Rigid_body object:
 

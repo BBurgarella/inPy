@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2019 - 03 - 01 &mdash; inPy 0.2a.5 documentation</title>
+  <title>Patch Notes V0.3 &mdash; inPy 0.2a.5 documentation</title>
   
 
   
@@ -89,9 +89,12 @@
 <li class="toctree-l1"><a class="reference internal" href="Classes.html">Classes namespace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Functions.html">Functions namespace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="AbaqusScripting.html">AbaqusScripting package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2019 - 03 - 01</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#id2">2019 - 02 -28</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#id3">2019 - 02 -27</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Patch Notes V0.3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2019 - 03 - 01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2019 - 02 -28</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2019 - 02 -27</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -137,7 +140,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>2019 - 03 - 01</li>
+      <li>Patch Notes V0.3</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -156,8 +159,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="id1">
-<h1>2019 - 03 - 01<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="patch-notes-v0-3">
+<h1>Patch Notes V0.3<a class="headerlink" href="#patch-notes-v0-3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2019 - 03 - 01<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>TODO</dt>
 <dd><blockquote class="first">
@@ -168,10 +173,8 @@
 </ul>
 </div></blockquote>
 <ul class="simple">
-<li>Implemented two new classes in a new inPy.Classes.Assembly file. These classes are respectively the Model class,</li>
+<li>Implemented two new classes in a new inPy.Classes.Assembly file. These classes are respectively the Model class, gathering a series of instances to simplify the generation of inp file and the Instance class that should be used as a master class for anything having a Generate_PartINP_String and Generate_AssemblyINP_String method.</li>
 </ul>
-<p>gathering a series of instances to simplify the generation of inp file and the Instance class that should be
-used as a master class for anything having a Generate_PartINP_String and Generate_AssemblyINP_String method.</p>
 <p>status: implemented,tested and validated</p>
 <ul class="last simple">
 <li>Created the documentation with sphinc</li>
@@ -180,7 +183,7 @@ used as a master class for anything having a Generate_PartINP_String and Generat
 </dl>
 </div>
 <div class="section" id="id2">
-<h1>2019 - 02 -28<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<h2>2019 - 02 -28<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>TODO</dt>
 <dd><ul class="first last simple">
@@ -193,15 +196,10 @@ used as a master class for anything having a Generate_PartINP_String and Generat
 <li><p class="first">Made the Braid class compatible with both backends for plot3d</p>
 <p>Status: implemented, tested and validated</p>
 </li>
-<li><p class="first">Fixed a bug that caused the contact surface to be on the inside a generated SquareSectionBar</p>
+<li><p class="first">Fixed a bug that caused the contact surface to be on the inside a generated SquareSectionBar instead of the outside</p>
 </li>
-</ul>
-<p>instead of the outside</p>
-<ul class="simple">
-<li>Added a SquareSectionBar rigid body, defined by a lengh and two dimensions L1 and L2</li>
-</ul>
-<p>status implemented, tested and validated</p>
-<ul>
+<li><p class="first">Added a SquareSectionBar rigid body, defined by a lengh and two dimensions L1 and L2 status implemented, tested and validated</p>
+</li>
 <li><p class="first">added two new methods to the Rigid_body object:</p>
 <p>Generate_PartINP_String(self): Returns the part definition as it should be written in the inp file
 Generate_AssemblyINP_String(self): Returns the assembly definition as it should be written in the inp files</p>
@@ -215,7 +213,7 @@ if GenMethod is “Extrusion”, PolygonString should return the definiton of th
 <p>status: implemented, tested and validated</p>
 </div>
 <div class="section" id="id3">
-<h1>2019 - 02 -27<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
+<h2>2019 - 02 -27<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">Started the implementation of a backend option, either matplotlib or Mayavi
 Mayavi is way more efficient, but relies on complex dependencies
@@ -240,6 +238,7 @@ takes a rotation vector as entry (rad) and returns the corresponding rotation ma
 </li>
 </ul>
 <p>status: implemented, tested and validated</p>
+</div>
 </div>
 
 

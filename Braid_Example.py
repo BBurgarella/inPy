@@ -28,7 +28,7 @@ if __name__ == "__main__":
     Pitch = 2*iP.PI
 
     # Number of strands in the braid
-    Nby = 15
+    Nby = 2
 
     # internal radius of the braid
     Dbyin = 0.5
