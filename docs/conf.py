@@ -14,8 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, 'C:\\Users\\p109875\\Python\\Projet GE\\inPy\\')
-sys.path.insert(0, 'C:\\Users\\p109875\\Python\\Projet GE\\')
+sys.path.insert(0,os.path.abspath("../../"))
 import inPy
 import inPy as iP
 
