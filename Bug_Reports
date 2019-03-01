@@ -1,0 +1,14 @@
+Bug report inPy V0.2a
+Multi-file-functions branch
+
+--> To be inPy V0.2 when published in the master branch
+____________________________________________________________________________
+2019 - 02 - 26
+
+############################################################################
+Error: "No module named 'inPy.Functions.inPy_Functions'"
+when  importing classes
+
+Status: Solved
+Source: a call to the old file inPy.inPy_Functions in the Braid class
+############################################################################

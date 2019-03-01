@@ -71,7 +71,7 @@ class Strand:
 
 
 class Braid:
-    from inPy.Functions.inPy_Functions import circlespacking
+    from inPy.Functions.Geometry import circlespacking
 
     def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R):
         # Local imports
@@ -103,9 +103,9 @@ class Braid:
             self.CWpath[-1].Init3DHelix(theta,"CW",self.Pitch,self.Nby,self.Dbyin,self.Dbyout,self.PlaitSegments)
 
 
-    def Draw(self,SectionFunction=circlespacking,Secargs = None):
+    def Draw(self,SectionFunction=circlespacking,Secargs = None,standalone=True,fig = None):
         import random
-        from mayavi import mlab
+        import inPy.Backend.BackendPlot as PlotBundle
 
         if Secargs == None:
             Secargs = (self.R,self.BundleR)
@@ -118,19 +118,21 @@ class Braid:
             Rprime = self.R
         if Rprime == 1:
             for path in self.CCWpath:
-                mlab.plot3d(path.Lx, path.Ly, path.Lz,tube_sides=50,tube_radius=self.FilR,color=(random.random(),random.random(),random.random()))
+                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
             for path in self.CWpath:
-                mlab.plot3d(path.Lx, path.Ly, path.Lz,tube_sides=50,tube_radius=self.FilR,color=(random.random(),random.random(),random.random()))
+                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
         else:
             Coords = SectionFunction(*Secargs)
             for path in self.CCWpath:
                 for Position in Coords:
-                    mlab.plot3d(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,tube_sides=50,tube_radius=self.FilR,color=(random.random(),random.random(),random.random()))
+                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilR)
             for path in self.CWpath:
                 for Position in Coords:
-                    mlab.plot3d(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,tube_sides=50,tube_radius=self.FilR,color=(random.random(),random.random(),random.random()))
-
-        mlab.show()
+                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilR)
+        if standalone:
+            PlotBundle.show()
+        else:
+            return fig
 
 
     def GenerateInpString(self,R=0,AddDummy = True,Config = ["Truss","Beam"]):
