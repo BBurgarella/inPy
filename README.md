@@ -2,6 +2,8 @@
 
 [![Documentation Status](https://readthedocs.org/projects/inpy/badge/?version=latest)](https://inpy.readthedocs.io/en/latest/?badge=latest)
 
+You can find the documentation by clicking on the documentation badge just above or following this link: --> [inPy Documentation](https://inpy.readthedocs.io/en/latest/?badge=latest)
+
 inPy is a python library that was developped by Boris Burgarella during his post-doc
 under the supervision of Prof. Louis Laberge Lebel at the LabSFCA, Polytechnique Montréal.
 
@@ -21,5 +23,7 @@ Native python mode -> Generate your geometry and then creates a .inp file that c
 The scripting mode can also be used to access to the odb, get results and export these results to different files
 
 Dependencies:
+- python 2.6+
 - numpy
 - abaqus 6.0+
+- matplotlib (or Mayavi)
