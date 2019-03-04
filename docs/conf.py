@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, '../')
+sys.path.insert(0, '../inPy')
 sys.path.insert(0, '../../')
 import inPy
 import inPy as iP
