@@ -26,7 +26,6 @@ import copy
 import sys
 
 Error = False
-print("Test")
 
 # inPy classes import
 
