@@ -249,9 +249,9 @@ class SquareSectionBar(rigid_Body):
         PolyString = ""
         # Draw a square that will be revoluted
         PolyString += "START, {}, {}\n".format(-self.L1/2,self.L2/2)
-        PolyString += " LINE, {}, {}\n".format(self.L1/2,self.L2/2)
-        PolyString += " LINE, {}, {}\n".format(self.L1/2,-self.L2/2)
         PolyString += " LINE, {}, {}\n".format(-self.L1/2,-self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(self.L1/2,-self.L2/2)
+        PolyString += " LINE, {}, {}\n".format(self.L1/2,self.L2/2)
         PolyString += " LINE, {}, {}\n".format(-self.L1/2,self.L2/2)
         return PolyString
 

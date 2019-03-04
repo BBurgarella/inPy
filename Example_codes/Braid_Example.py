@@ -29,14 +29,14 @@ if __name__ == "__main__":
     Pitch = 2*iP.PI
 
     # Number of strands in the braid
-    Nby = 12
+    Nby = 2
 
     # internal radius of the braid
     Dbyin = 3 #mm
 
     # Number of layers in each strand
     # Calculating following one diameter
-    R = 13
+    R = 1
 
     # Filament radius
     FilR = 0.0025 #mm

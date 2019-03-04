@@ -12,8 +12,22 @@ Patch Notes V0.3
   - Changed the way the braid structure behaves to simplify the generation of embeded beams
   the end-user experience shoud not change, it's more of an inside change
 
-  status: implemented, to be tested
+  status: implemented, tested and validated
 
+  - Corrected a bug that prevented the right definition of the dumy node,
+  the used was asked in abaqus to redefine the element set "DUMMYSET",
+  now work as initially intended
+
+  status: debugged, now work as intended
+
+  - Corrected a bug that made abaqus create the surface with the normal in the
+  wrong way, this seems to be rather inconsistant from abaqus so use with caution.
+  for some reason, the order in which the points are specified changes from when the inp is
+  imported in CAE to when the job inp is written. this works on my computer
+  but might not on another. Always check the surface orientation before starting
+  a new case !
+
+  status: debugged, need to validate the consistency
 
 2019 - 03 - 01
 --------------

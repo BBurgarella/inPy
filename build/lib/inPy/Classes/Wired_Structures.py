@@ -284,6 +284,7 @@ class Braid(Instance):
             self.inpString += "*Node\n      {},           0.,           0.,           0.\n".format(self.CurrentNode)
             self.inpString += "*Nset, nset=DummySet, internal\n{},\n".format(self.CurrentNode)
             self.inpString += "*Nset, nset=DummySet\n{},\n".format(self.CurrentNode)
+            self.DummyID = self.CurrentNode
             self.CurrentNode += 1
         for i in self.BeamList:
             if self.Config[1] != None:
@@ -404,7 +405,7 @@ class Braid(Instance):
 
 
 
-        self.inpString += "*Element, type=MASS, elset=DUMMYSET\n1, 1\n*Mass, elset=DUMMYSET\n1e-05,\n"
+        self.inpString += "*Element, type=MASS, elset=DUMMYSET\n1, {}\n*Mass, elset=DUMMYSET\n1e-05,\n".format(self.DummyID)
         self.inpString += "*End Assembly\n"
 
         #Materials
