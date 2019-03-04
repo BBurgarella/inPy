@@ -1,0 +1,6 @@
+# requirements for inPy
+###### Requirements without Version Specifiers ######
+Mayavi
+matplotlib
+numpy
+#
