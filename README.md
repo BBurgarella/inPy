@@ -2,6 +2,12 @@
 
 [![Documentation Status](https://readthedocs.org/projects/inpy/badge/?version=latest)](https://inpy.readthedocs.io/en/latest/?badge=latest)
 
+
+
+[![DOI](https://zenodo.org/badge/171340690.svg)](https://zenodo.org/badge/latestdoi/171340690)
+
+
+
 You can find the documentation by clicking on the documentation badge just above or following this link: --> [inPy Documentation](https://inpy.readthedocs.io/en/latest/?badge=latest)
 
 inPy is a python library that was developped by Boris Burgarella during his post-doc
