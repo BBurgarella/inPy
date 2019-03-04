@@ -66,6 +66,7 @@ class Model:
         CurrentNode = 1
         for Instance in self.InstanceList:
             Instance.FirstNode = self.CurrentNode
+            print("Premier noeud: {}".format(Instance.FirstNode))
             self.INPString += Instance.Generate_PartINP_String()
             self.CurrentNode = Instance.CurrentNode
 

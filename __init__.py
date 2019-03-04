@@ -30,6 +30,8 @@ Error = False
 
 # inPy classes import
 
+from inPy.inPy_Constants import *
+
 try:
     from inPy.Classes.FEM import *
     from inPy.Classes.Geometry import *
@@ -58,14 +60,37 @@ except Exception as e:
     print("Error, impossible to load the inPy function files")
     print("The error is: \"{}\"".format(e))
 
-# inPy functions import
+# inPy Backend import
 try:
     from inPy.Backend.BackendPlot import *
 
 except Exception as e:
     Error = True
-    print("Error, impossible to load the inPy function files")
+    print("Error, impossible to load the inPy backend files")
     print("The error is: \"{}\"".format(e))
+
+# try to import abaqus related libraries
+try:
+    from abaqus import *
+    from abaqusConstants import *
+    import regionToolset
+    from part import *
+    from material import *
+    from section import *
+    from assembly import *
+    from step import *
+    from interaction import *
+    from load import *
+    from mesh import *
+    from optimization import *
+    from job import *
+    from sketch import *
+    from visualization import *
+    from connectorBehavior import *
+    import sketch
+    import part
+except:
+    print("Abaqus libraries not detected, inPy runs in standalone mode")
 
 if Error == False:
     print("inPy V{} imported".format(inPy_Version))

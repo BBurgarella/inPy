@@ -75,46 +75,106 @@ class Strand:
 
 
 class Braid(Instance):
+    """
+        Class used to represent a braid, mandatory parameters are Pitch, Nby (number of strands, must always be even), Dbyin (internal radius)
+        BraidThickness (Thickness of the braid), PlaitSegments (discretization of each beam) and R (number of radiuses in each strand).
+
+        Valid optional paramters are:
+        ``Config`` ---> Array used to configure the embeded beams configuration [2x1], Config[0] gives the external elements type, Config[1] give the internal element Type
+        For example ``Config = ["Truss",None]`` will configure inPy to only use Truss elements, ``Config = ["Truss","Beam"]`` is the default embeded beam situation
+        with external truss and internal beams, default to ["Beam",None]
+
+        ``SparsingCoeff`` this parameter will be changed in future version, right now, it controlls the circlespacking call and defines the gap between each filaments center
+        the smallest distance between each filament is defined as d = (1 + Filament_Diameter)*SparsingCoeff, default to 0
+
+        ``Imposed_FilR`` allows the user to specify a filament radius, default to None and in this case, the filament radius is defined as BraidThickness/2*R
+
+        ``**kwargs`` --> used to defined the Instance master-class attributes if needed
+
+    """
+
     from inPy.Functions.Geometry import circlespacking
 
-    def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R,Config =  ["Truss","Beam"],**kwargs):
+    def __init__(self,Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R,Config =  ["Beam",None],SparsingCoeff=0,Imposed_FilR=None,**kwargs):
         # Local imports
         from inPy.inPy_Constants import PI
         from inPy.Classes.Path import path
 
-        """ Credits to Louis for most of the code in this class
-        """
+        # Initialise the Instance attributes
         super().__init__(**kwargs)
 
-        self.Pitch = Pitch
-        self.R = R
-        self.BundleR = BraidThickness/2
-        self.FilR = self.BundleR/self.R
-        self.Nby = Nby
-        self.Dbyin = Dbyin
+        self.Pitch = Pitch # controls the angle of the braid
+        self.R = R #number of radiuses in each strand
+        self.BundleR = BraidThickness/2 # Radius of each strand
+        if Imposed_FilR == None:
+            # If the filament radius is not imposed, the program
+            # can't know the inside radius and therefore takes
+            # BundleR/R as default
+            self.FilRIn = self.BundleR/self.R
+            self.FilROut = self.BundleR/self.R
+        else:
+            # Filament radius (embeded beams radius)
+            self.FilRIn = Imposed_FilR
+            # external filament radius
+            self.FilROut = self.BundleR/self.R
+        if Nby %2 != 0:
+            raise ValueError('Error: braid defined with un-even Nby')
+        else:
+            self.Nby = Nby # number of strands, should always be even
+        self.Dbyin = Dbyin # internal radius of the braid
         self.BraidThickness = BraidThickness
-        self.Dbyout = Dbyin+BraidThickness*2
+        self.Dbyout = Dbyin+BraidThickness*2 # external radius of the Braid
+        # Init the path tables
         self.CCWpath = []
         self.CWpath = []
+        # ini the inp String
         self.inpString = ""
-        self.PlaitSegments = PlaitSegments;
+        self.PlaitSegments = PlaitSegments
         self.Config = Config
+        self.SparsingCoeff = SparsingCoeff
 
         for k in range(int(Nby/2)):
+            # Fill the path tables with path objects
             theta = 2*PI*(k-1)/(self.Nby/2)
             self.CCWpath.append(path())
+            # The Init3DHelix function of path objects
+            # was developped for this purpose
+            # Counter clockwise paths
             self.CCWpath[-1].Init3DHelix(theta,"CCW",self.Pitch,self.Nby,self.Dbyin,self.Dbyout,self.PlaitSegments)
 
+            # Clockwise paths
             self.CWpath.append(path())
             self.CWpath[-1].Init3DHelix(theta,"CW",self.Pitch,self.Nby,self.Dbyin,self.Dbyout,self.PlaitSegments)
 
 
     def Draw(self,SectionFunction=circlespacking,Secargs = None,standalone=True,fig = None):
+
+        """
+        Draws the braid for preview purposes,
+        depends on the plot backend chosen by the end-user
+
+        Valid parameters:
+        ``SectionFunction``  --> python function that will be call on ``**Sceargs``
+        The section function should remains as default for now since the braid object is not yet compatible with
+        other section shapes.
+
+        ``Secargs`` --> tuple of arguments for the section function, if None, this will be set to
+        (self.R,self.BundleR,self.SparsingCoeff)
+
+        ``standalone`` ---> parameter that should always appear in draw functions for inPy.Instance subclasses, if True (default)
+        the plot will be shown directly, if False, a figure object is returned
+
+        ``fig`` ---> this is used if you want to add the braid to a previously existing figure object
+
+        """
+        # Local imports
         import random
         import inPy.Backend.BackendPlot as PlotBundle
 
+        # if the user did not specify Secargs, set to
+        # (self.R,self.BundleR,self.SparsingCoeff)
         if Secargs == None:
-            Secargs = (self.R,self.BundleR)
+            Secargs = (self.R,self.BundleR,self.SparsingCoeff)
 
         # R = 0 should not be Used
         # but just in case
@@ -122,12 +182,16 @@ class Braid(Instance):
             Rprime = 1
         else:
             Rprime = self.R
+
+        # if Rprime == 1
+        # this means only one filament in the strands
         if Rprime == 1:
             for path in self.CCWpath:
                 fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
             for path in self.CWpath:
                 fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
         else:
+            # multiple filaments
             Coords = SectionFunction(*Secargs)
             for path in self.CCWpath:
                 for Position in Coords:
@@ -153,43 +217,44 @@ class Braid(Instance):
         for k in range(int(self.Nby/2)):
             #Node Generation CCW
             if self.R == 0:
-                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+self.FirstNode)
+                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=self.CurrentNode)
                 NodeListCCW.append(MakeNodeListRes[0])
                 self.CurrentNode = MakeNodeListRes[1]
 
-                #Mesh Generation
+                #Mesh Generation CCW
                 string = "BeamCCW"+str(k)
                 if self.Config[0] == "Truss":
-                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
                 if self.Config[0] == "Beam":
-                    self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
+                    self.BeamList.append(BeamMesh(string,"B31",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCCW[k],Elem0 = 10000*k+1))
             else:
-                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=10000*k+1,R=self.R,YarnR=self.BundleR)
+                MakeNodeListRes = self.CCWpath[k].MakeNodeList(ID0=self.CurrentNode,R=self.R,YarnR=self.BundleR,SparsingCoeff=self.SparsingCoeff)
                 for i in range(len(MakeNodeListRes[0])):
                     NodeListCCW.append(MakeNodeListRes[0][i])
                     self.CurrentNode = MakeNodeListRes[1]
 
-                    #Mesh Generation
+                    #Mesh Generation CCW
                     string = "BeamCCW"+str(k)+"_"+str(i)
                     if self.Config[0] == "Truss":
-                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
                     if self.Config[0] == "Beam":
-                        self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
-
+                        self.BeamList.append(BeamMesh(string,"B31",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+        print("------------------------------------------------------------------\n------------------------CCW Beams Generated------------------------")
         for k in range(int(self.Nby/2)):
+            #Node Generation CW
             if self.R == 0:
-                MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=10000*k+1)
+                MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=self.CurrentNode)
                 NodeListCW.append(MakeNodeListRes[0])
                 self.CurrentNode = MakeNodeListRes[1]
 
-                #Mesh Generation
+            #Mesh Generation CW
                 string = "BeamCW"+str(k)
                 if self.Config[0] == "Truss":
-                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                    self.BeamList.append(BeamMesh(string,"T3D2",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
                 if self.Config[0] == "Beam":
-                    self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
+                    self.BeamList.append(BeamMesh(string,"B31",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCW[k],Elem0 = 10000*k+1))
             else:
-                MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=1000*k+1,R=self.R,YarnR=self.BundleR)
+                MakeNodeListRes = self.CWpath[k].MakeNodeList(ID0=self.CurrentNode,R=self.R,YarnR=self.BundleR,SparsingCoeff=self.SparsingCoeff)
                 for i in range(len(MakeNodeListRes[0])):
                     NodeListCW.append(MakeNodeListRes[0][i])
                     self.CurrentNode = MakeNodeListRes[1]
@@ -197,14 +262,14 @@ class Braid(Instance):
                     #Mesh Generation
                     string = "BeamCW"+str(k)+"_"+str(i)
                     if self.Config[0] == "Truss":
-                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        self.BeamList.append(BeamMesh(string,"T3D2",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
                     if self.Config[0] == "Beam":
-                        self.BeamList.append(BeamMesh(string,"B31",self.FilR,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
+                        self.BeamList.append(BeamMesh(string,"B31",self.FilROut,self.Config[0],"OUT",NodeList=NodeListCW[i+(k*len(MakeNodeListRes[0]))],Elem0 = 10000*k+1))
 
         if AddDummy == True:
-                self.inpString += CreateDummyString(1,0,0,0)
+                self.inpString += CreateDummyString()
         for i in self.BeamList:
-                Validation = EmbededBeam(i,self.BundleR/Rprime,self.FilR)
+                Validation = EmbededBeam(i,self.FilROut,self.FilRIn)
                 self.inpString += Validation.Generate(Config = self.Config)
         self.CurrentNode += 1
         print("------------------------------------------------------------------\n------------------------CW Beams Generated------------------------")
@@ -313,21 +378,21 @@ class Braid(Instance):
 
                 elif DL == 1:
                     self.inpString += "** Constraint: PBC_OUT_"+beam.Namestr+"_"+str(DL+1)+"\n"
-                    self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\n"
+                    self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
                     #Inside Beams
                     if self.Config[1] != None:
                         self.inpString += "** Constraint: PBC_IN_"+beam.Namestr+"_"+str(DL+1)+"\n"
-                        self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\n"
+                        self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
                 else:
                     self.inpString += "** Constraint: PBC_OUT_"+beam.Namestr+"_"+str(DL+1)+"\n"
-                    self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\n"
+                    self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_OUT_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
                     #Inside Beams
                     if self.Config[1] != None:
                         self.inpString += "** Constraint: PBC_IN_"+beam.Namestr+"_"+str(DL+1)+"\n"
-                        self.inpString += "*Equation\n2\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\n"
+                        self.inpString += "*Equation\n3\nM_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",-1.\nS_"+beam.Namestr+"_IN_PBC,"+str(DL+1)+",1.\nDUMMYSET,"+str(DL+1)+",1\n"
 
 
             count+=1

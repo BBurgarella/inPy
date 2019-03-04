@@ -163,27 +163,6 @@
 <span class="kn">from</span> <span class="nn">inPy.Classes</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="o">*</span>
 
-
-
-
-
-<span class="c1">##################################</span>
-<span class="c1">#	   	General functions		 #</span>
-<span class="c1">##################################</span>
-
-<div class="viewcode-block" id="EnableScriptingEnvironement"><a class="viewcode-back" href="../../Functions.html#Functions.Meta.EnableScriptingEnvironement">[docs]</a><span class="k">def</span> <span class="nf">EnableScriptingEnvironement</span><span class="p">(</span><span class="n">Verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">AbaqusScripting</span>
-    <span class="k">if</span> <span class="n">Verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file can now be used as a script in abaqus&quot;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">Verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file can now be used as a script in abaqus&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">AbaqusScripting</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">Verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Impossible to import abaqus libraries&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You need to use the abaqus python command or, in CAE &#39;File -&gt; run script&#39;&quot;</span><span class="p">)</span></div>
-
 <span class="c1">##################################</span>
 <span class="c1">#	   	wrapping functions		 #</span>
 <span class="c1">##################################</span>

@@ -201,9 +201,9 @@
 
 <div class="viewcode-block" id="path.Init3DSinus"><a class="viewcode-back" href="../../Classes.html#Classes.Path.path.Init3DSinus">[docs]</a>    <span class="k">def</span> <span class="nf">Init3DSinus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">LinearMatrix</span><span class="p">,</span><span class="n">Lengh</span><span class="p">,</span><span class="n">NbPoints</span><span class="p">,</span><span class="n">Omega</span><span class="p">,</span><span class="n">Phi</span><span class="p">,</span><span class="n">R0</span><span class="p">,</span><span class="n">Cth</span><span class="p">,</span><span class="n">Th0</span><span class="p">,</span><span class="n">OffX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">OffY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">OffZ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">            The linear matrix parameter</span>
 <span class="sd">            is defined as follow:</span>
+<span class="sd">            </span>
 <span class="sd">            [[Cx,Cy,Cz],</span>
 <span class="sd">             [Ax,Ay,Az]]</span>
 
@@ -265,6 +265,12 @@
         <span class="c1"># don&#39;t understand the sum</span>
 
 <div class="viewcode-block" id="path.Init3DHelix"><a class="viewcode-back" href="../../Classes.html#Classes.Path.path.Init3DHelix">[docs]</a>    <span class="k">def</span> <span class="nf">Init3DHelix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">DirectionParam</span><span class="p">,</span><span class="n">Pitch</span><span class="p">,</span><span class="n">Nby</span><span class="p">,</span><span class="n">Dbyin</span><span class="p">,</span><span class="n">Dbyout</span><span class="p">,</span><span class="n">PlaitSegments</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; Credits to Louis for most of the code in this function, most of it comes from a</span>
+<span class="sd">            matlab script he had written that I converted in Python</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
         <span class="kn">from</span> <span class="nn">inPy.inPy_Constants</span> <span class="k">import</span> <span class="n">PI</span>
         <span class="k">if</span> <span class="n">DirectionParam</span> <span class="o">==</span> <span class="s2">&quot;CCW&quot;</span><span class="p">:</span>
             <span class="n">DirectionCoeff</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -336,7 +342,7 @@
                 <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">NbPoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="path.MakeNodeList"><a class="viewcode-back" href="../../Classes.html#Classes.Path.path.MakeNodeList">[docs]</a>    <span class="k">def</span> <span class="nf">MakeNodeList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ID0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">YarnR</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="path.MakeNodeList"><a class="viewcode-back" href="../../Classes.html#Classes.Path.path.MakeNodeList">[docs]</a>    <span class="k">def</span> <span class="nf">MakeNodeList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ID0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">YarnR</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">SparsingCoeff</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 
         <span class="kn">from</span> <span class="nn">inPy.Functions.Geometry</span> <span class="k">import</span> <span class="n">circlespacking</span>
         <span class="kn">from</span> <span class="nn">inPy.Classes.FEM</span> <span class="k">import</span> <span class="n">node</span><span class="p">,</span><span class="n">BeamMesh</span>
@@ -354,7 +360,7 @@
             <span class="n">NodeListTable</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">layers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="mi">2</span><span class="o">*</span><span class="n">R</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">number_of_filaments</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">6</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">layers</span><span class="p">)])</span>
-            <span class="n">FilamentCoord</span> <span class="o">=</span> <span class="n">circlespacking</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">YarnR</span><span class="p">)</span>
+            <span class="n">FilamentCoord</span> <span class="o">=</span> <span class="n">circlespacking</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">YarnR</span><span class="p">,</span><span class="n">SparsingCoeff</span><span class="p">)</span>
             <span class="n">CurrentID</span> <span class="o">=</span> <span class="n">ID0</span>
             <span class="k">for</span> <span class="n">filament</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">FilamentCoord</span><span class="p">)):</span>
                 <span class="n">NodeList</span> <span class="o">=</span> <span class="p">[]</span>
@@ -362,6 +368,7 @@
                     <span class="n">NodeList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">FilamentCoord</span><span class="p">[</span><span class="n">filament</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">FilamentCoord</span><span class="p">[</span><span class="n">filament</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">Lz</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ID0</span><span class="o">+</span><span class="n">i</span><span class="p">))</span>
                     <span class="n">LastID</span>  <span class="o">=</span> <span class="n">CurrentID</span>
                     <span class="n">CurrentID</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">ID0</span> <span class="o">=</span> <span class="n">CurrentID</span>
                 <span class="n">NodeListTable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">NodeList</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">NodeListTable</span><span class="p">,</span><span class="n">LastID</span><span class="p">,</span><span class="n">Rsup0</span></div></div>
 </pre></div>

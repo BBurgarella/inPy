@@ -9,27 +9,6 @@ from math import *
 from inPy.Classes import *
 from inPy.inPy_Constants import *
 
-
-
-
-
-##################################
-#	   	General functions		 #
-##################################
-
-def EnableScriptingEnvironement(Verbose = True):
-    import AbaqusScripting
-    if Verbose:
-        print("This file can now be used as a script in abaqus")
-    try:
-        if Verbose:
-            print("This file can now be used as a script in abaqus")
-            print(AbaqusScripting.methods)
-    except:
-        if Verbose:
-            print("Impossible to import abaqus libraries")
-            print("You need to use the abaqus python command or, in CAE 'File -> run script'")
-
 ##################################
 #	   	wrapping functions		 #
 ##################################

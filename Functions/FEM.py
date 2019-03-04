@@ -13,7 +13,7 @@ from inPy.inPy_Constants import *
 #	   FEM specific functions		 #
 ######################################
 
-def CreateDummyString(NodeNum,X,Y,Z):
+def CreateDummyString():
     strtoreturn = ""
     strtoreturn += "**\n*Part, name = Dummy\n"
     strtoreturn += "*End Part\n**\n"

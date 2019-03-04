@@ -47,9 +47,9 @@ class path:
 
     def Init3DSinus(self,LinearMatrix,Lengh,NbPoints,Omega,Phi,R0,Cth,Th0,OffX = 0, OffY = 0, OffZ = 0):
         """
-
             The linear matrix parameter
             is defined as follow:
+            
             [[Cx,Cy,Cz],
              [Ax,Ay,Az]]
 
@@ -111,6 +111,12 @@ class path:
         # don't understand the sum
 
     def Init3DHelix(self,theta,DirectionParam,Pitch,Nby,Dbyin,Dbyout,PlaitSegments):
+
+        """ Credits to Louis for most of the code in this function, most of it comes from a
+            matlab script he had written that I converted in Python
+        """
+
+
         from inPy.inPy_Constants import PI
         if DirectionParam == "CCW":
             DirectionCoeff = -1
@@ -182,7 +188,7 @@ class path:
                 i=0
         self.NbPoints = len(self.Lx)
 
-    def MakeNodeList(self,ID0=0,R=0,YarnR=0):
+    def MakeNodeList(self,ID0=0,R=0,YarnR=0,SparsingCoeff=0):
 
         from inPy.Functions.Geometry import circlespacking
         from inPy.Classes.FEM import node,BeamMesh
@@ -200,7 +206,7 @@ class path:
             NodeListTable = []
             layers = int(((2*R)-(R+1))/2)
             number_of_filaments = sum([(i+1)*6 for i in range(layers)])
-            FilamentCoord = circlespacking(R,YarnR)
+            FilamentCoord = circlespacking(R,YarnR,SparsingCoeff)
             CurrentID = ID0
             for filament in range(len(FilamentCoord)):
                 NodeList = []
@@ -208,5 +214,6 @@ class path:
                     NodeList.append(node(self.Lx[i]+FilamentCoord[filament][0],self.Ly[i]+FilamentCoord[filament][1],self.Lz[i],ID0+i))
                     LastID  = CurrentID
                     CurrentID += 1
+                ID0 = CurrentID
                 NodeListTable.append(copy.deepcopy(NodeList))
             return NodeListTable,LastID,Rsup0

@@ -55,7 +55,7 @@ def circlespace(xC,yC,radius,n):
 	#print(X,Y)
 	return X,Y
 
-def circlespacking(R,yarnR):
+def circlespacking(R,yarnR,SparsingCoeff=0):
 	xy_disc = []
 	num_cercles = []
 	layers = []
@@ -74,8 +74,8 @@ def circlespacking(R,yarnR):
 			y_disc = np.zeros((1,num_cercles+1))
 			#print x_disc,y_disc
 			for j in range(0,num_cercles):
-				x_disc[0][j] = (xcoor[0][j]*yarnR)/R
-				y_disc[0][j] = (ycoor[0][j]*yarnR)/R
+				x_disc[0][j] = (xcoor[0][j]*yarnR*(1+SparsingCoeff))/R
+				y_disc[0][j] = (ycoor[0][j]*yarnR*(1+SparsingCoeff))/R
 				xy_disc.append((x_disc[0][j],y_disc[0][j]))
 		x_disc[0][j+1] = 0
 		y_disc[0][j+1] = 0
@@ -137,7 +137,6 @@ def OvalDistribution(yarnR,Setup = "Hex",R1=None,R2=None,SparsingCoeff=0,Remove_
             candidatesTable.append([XCandidate,YCandidate])
     SelectedTable = []
     if Remove_Not_Selected == False:
-        print("coucou")
         return candidatesTable
     else:
         for PossibleFiber in candidatesTable:

@@ -8,7 +8,7 @@ try:
 except:
     print("Unable to import some modules\nfunctions and classes might not work properly")
 
-from inPy_Constants import *
+from inPy.inPy_Constants import *
 
 """
 To implement your own backend, make sure that all these functions are defined:

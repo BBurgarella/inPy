@@ -98,9 +98,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Functions.html">Functions namespace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="AbaqusScripting.html">AbaqusScripting package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html">2019 - 03 - 01</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id2">2019 - 02 -28</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html#id3">2019 - 02 -27</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patch Notes.html">Patch Notes V0.3</a></li>
 </ul>
 
             
@@ -286,16 +284,19 @@ an axis by its index or char reference (x, y or z)</p>
 <dl class="method">
 <dt id="Classes.Path.path.Init3DHelix">
 <code class="descname">Init3DHelix</code><span class="sig-paren">(</span><em>theta</em>, <em>DirectionParam</em>, <em>Pitch</em>, <em>Nby</em>, <em>Dbyin</em>, <em>Dbyout</em>, <em>PlaitSegments</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.Init3DHelix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.Init3DHelix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Credits to Louis for most of the code in this function, most of it comes from a
+matlab script he had written that I converted in Python</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Classes.Path.path.Init3DSinus">
 <code class="descname">Init3DSinus</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>Omega</em>, <em>Phi</em>, <em>R0</em>, <em>Cth</em>, <em>Th0</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.Init3DSinus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.Init3DSinus" title="Permalink to this definition">¶</a></dt>
 <dd><p>The linear matrix parameter
-is defined as follow:
-[[Cx,Cy,Cz],</p>
-<blockquote>
-<div>[Ax,Ay,Az]]</div></blockquote>
+is defined as follow:</p>
+<dl class="docutils">
+<dt>[[Cx,Cy,Cz],</dt>
+<dd>[Ax,Ay,Az]]</dd>
+</dl>
 <p>Équation paramétrique de la droite
 {x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
 <p>Équation du sinus:
@@ -316,7 +317,7 @@ for example)</p>
 
 <dl class="method">
 <dt id="Classes.Path.path.MakeNodeList">
-<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.MakeNodeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em>, <em>SparsingCoeff=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Path.html#path.MakeNodeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Path.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -335,7 +336,7 @@ admissible values are “Cyl” (Cylinder), “V” (Vshape contact surface), �
 <p>ShapeArgs –&gt; Tuple used to specify the shape-related parameters</p>
 <dl class="method">
 <dt id="Classes.RigidBodies.Pulley.Draw">
-<code class="descname">Draw</code><span class="sig-paren">(</span><em>Sides=100</em>, <em>color=(0.5527863551646062</em>, <em>0.7166742191948022</em>, <em>0.840625404943609)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#Pulley.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.Pulley.Draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">Draw</code><span class="sig-paren">(</span><em>Sides=100</em>, <em>color=(0.2784995499166505</em>, <em>0.3028177966864798</em>, <em>0.5434406219486525)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#Pulley.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.Pulley.Draw" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -351,7 +352,7 @@ admissible values are “Cyl” (Cylinder), “V” (Vshape contact surface), �
 <dd><p>Bases: <a class="reference internal" href="#Classes.RigidBodies.rigid_Body" title="Classes.RigidBodies.rigid_Body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Classes.RigidBodies.rigid_Body</span></code></a></p>
 <dl class="method">
 <dt id="Classes.RigidBodies.SquareSectionBar.Draw">
-<code class="descname">Draw</code><span class="sig-paren">(</span><em>color=(0.14851557768969592</em>, <em>0.5887123789974079</em>, <em>0.02937008022767773)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#SquareSectionBar.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.SquareSectionBar.Draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">Draw</code><span class="sig-paren">(</span><em>color=(0.5105623039180993</em>, <em>0.3308061030631936</em>, <em>0.23383947943346062)</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/RigidBodies.html#SquareSectionBar.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.RigidBodies.SquareSectionBar.Draw" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -396,8 +397,18 @@ add to the inp when generating the parts</p>
 <span id="classes-wired-structures-module"></span><h2>Classes.Wired_Structures module<a class="headerlink" href="#module-Classes.Wired_Structures" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="Classes.Wired_Structures.Braid">
-<em class="property">class </em><code class="descclassname">Classes.Wired_Structures.</code><code class="descname">Braid</code><span class="sig-paren">(</span><em>Pitch, Nby, Dbyin, BraidThickness, PlaitSegments, R, Config=['Truss', 'Beam'], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">Classes.Wired_Structures.</code><code class="descname">Braid</code><span class="sig-paren">(</span><em>Pitch, Nby, Dbyin, BraidThickness, PlaitSegments, R, Config=['Beam', None], SparsingCoeff=0, Imposed_FilR=None, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">inPy.Classes.Assembly.Instance</span></code></p>
+<p>Class used to represent a braid, mandatory parameters are Pitch, Nby (number of strands, must always be even), Dbyin (internal radius)
+BraidThickness (Thickness of the braid), PlaitSegments (discretization of each beam) and R (number of radiuses in each strand).</p>
+<p>Valid optional paramters are:
+<code class="docutils literal notranslate"><span class="pre">Config</span></code> —&gt; Array used to configure the embeded beams configuration [2x1], Config[0] gives the external elements type, Config[1] give the internal element Type
+For example <code class="docutils literal notranslate"><span class="pre">Config</span> <span class="pre">=</span> <span class="pre">[&quot;Truss&quot;,None]</span></code> will configure inPy to only use Truss elements, <code class="docutils literal notranslate"><span class="pre">Config</span> <span class="pre">=</span> <span class="pre">[&quot;Truss&quot;,&quot;Beam&quot;]</span></code> is the default embeded beam situation
+with external truss and internal beams, default to [“Beam”,None]</p>
+<p><code class="docutils literal notranslate"><span class="pre">SparsingCoeff</span></code> this parameter will be changed in future version, right now, it controlls the circlespacking call and defines the gap between each filaments center
+the smallest distance between each filament is defined as d = (1 + Filament_Diameter)*SparsingCoeff, default to 0</p>
+<p><code class="docutils literal notranslate"><span class="pre">Imposed_FilR</span></code> allows the user to specify a filament radius, default to None and in this case, the filament radius is defined as BraidThickness/2*R</p>
+<p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> –&gt; used to defined the Instance master-class attributes if needed</p>
 <dl class="method">
 <dt id="Classes.Wired_Structures.Braid.Create_BCINP_String">
 <code class="descname">Create_BCINP_String</code><span class="sig-paren">(</span><em>Value</em>, <em>FrictionCoef</em>, <em>Type='Force'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Create_BCINP_String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Create_BCINP_String" title="Permalink to this definition">¶</a></dt>
@@ -406,7 +417,18 @@ add to the inp when generating the parts</p>
 <dl class="method">
 <dt id="Classes.Wired_Structures.Braid.Draw">
 <code class="descname">Draw</code><span class="sig-paren">(</span><em>SectionFunction=&lt;function circlespacking&gt;</em>, <em>Secargs=None</em>, <em>standalone=True</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes/Wired_Structures.html#Braid.Draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Classes.Wired_Structures.Braid.Draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draws the braid for preview purposes,
+depends on the plot backend chosen by the end-user</p>
+<p>Valid parameters:
+<code class="docutils literal notranslate"><span class="pre">SectionFunction</span></code>  –&gt; python function that will be call on <code class="docutils literal notranslate"><span class="pre">**Sceargs</span></code>
+The section function should remains as default for now since the braid object is not yet compatible with
+other section shapes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Secargs</span></code> –&gt; tuple of arguments for the section function, if None, this will be set to
+(self.R,self.BundleR,self.SparsingCoeff)</p>
+<p><code class="docutils literal notranslate"><span class="pre">standalone</span></code> —&gt; parameter that should always appear in draw functions for inPy.Instance subclasses, if True (default)
+the plot will be shown directly, if False, a figure object is returned</p>
+<p><code class="docutils literal notranslate"><span class="pre">fig</span></code> —&gt; this is used if you want to add the braid to a previously existing figure object</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Classes.Wired_Structures.Braid.Generate_AssemblyINP_String">
@@ -425,7 +447,7 @@ add to the inp when generating the parts</p>
 
 <dl class="method">
 <dt id="Classes.Wired_Structures.Braid.circlespacking">
-<code class="descname">circlespacking</code><span class="sig-paren">(</span><em>yarnR</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Braid.circlespacking" title="Permalink to this definition">¶</a></dt>
+<code class="descname">circlespacking</code><span class="sig-paren">(</span><em>yarnR</em>, <em>SparsingCoeff=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Braid.circlespacking" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -456,16 +478,19 @@ add to the inp when generating the parts</p>
 <dl class="method">
 <dt id="Classes.Wired_Structures.Strand.path.Init3DHelix">
 <code class="descname">Init3DHelix</code><span class="sig-paren">(</span><em>theta</em>, <em>DirectionParam</em>, <em>Pitch</em>, <em>Nby</em>, <em>Dbyin</em>, <em>Dbyout</em>, <em>PlaitSegments</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.Init3DHelix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Credits to Louis for most of the code in this function, most of it comes from a
+matlab script he had written that I converted in Python</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Classes.Wired_Structures.Strand.path.Init3DSinus">
 <code class="descname">Init3DSinus</code><span class="sig-paren">(</span><em>LinearMatrix</em>, <em>Lengh</em>, <em>NbPoints</em>, <em>Omega</em>, <em>Phi</em>, <em>R0</em>, <em>Cth</em>, <em>Th0</em>, <em>OffX=0</em>, <em>OffY=0</em>, <em>OffZ=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.Init3DSinus" title="Permalink to this definition">¶</a></dt>
 <dd><p>The linear matrix parameter
-is defined as follow:
-[[Cx,Cy,Cz],</p>
-<blockquote>
-<div>[Ax,Ay,Az]]</div></blockquote>
+is defined as follow:</p>
+<dl class="docutils">
+<dt>[[Cx,Cy,Cz],</dt>
+<dd>[Ax,Ay,Az]]</dd>
+</dl>
 <p>Équation paramétrique de la droite
 {x = Cx*t+Ax;y = Cy*t+Ay;z = Cz*t+Az}</p>
 <p>Équation du sinus:
@@ -486,7 +511,7 @@ for example)</p>
 
 <dl class="method">
 <dt id="Classes.Wired_Structures.Strand.path.MakeNodeList">
-<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MakeNodeList</code><span class="sig-paren">(</span><em>ID0=0</em>, <em>R=0</em>, <em>YarnR=0</em>, <em>SparsingCoeff=0</em><span class="sig-paren">)</span><a class="headerlink" href="#Classes.Wired_Structures.Strand.path.MakeNodeList" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

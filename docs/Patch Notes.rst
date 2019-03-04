@@ -1,10 +1,24 @@
 Patch Notes V0.3
 ================
 
+2019 - 03 - 04
+
+  TODO
+    - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
+
+  - Updated the conf.py file for the documentation, it now compiles and should pass the test on ReadTheDocs
+  (you tell me :P)
+
+  - Changed the way the braid structure behaves to simplify the generation of embeded beams
+  the end-user experience shoud not change, it's more of an inside change
+
+  status: implemented, to be tested
+
+
 2019 - 03 - 01
 --------------
 
-TODO
+  TODO
     - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
     - Write an assembly class to simplify inp generation
     - Implement a Preview method for the model
