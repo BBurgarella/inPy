@@ -23,6 +23,7 @@ Native python mode -> Generate your geometry and then creates a .inp file that c
 The scripting mode can also be used to access to the odb, get results and export these results to different files
 
 Dependencies:
+- python 2.6+
 - numpy
 - abaqus 6.0+
 - matplotlib (or Mayavi)
