@@ -187,18 +187,18 @@ class Braid(Instance):
         # this means only one filament in the strands
         if Rprime == 1:
             for path in self.CCWpath:
-                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
+                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilROut)
             for path in self.CWpath:
-                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilR)
+                fig = PlotBundle.Plot_Path(path.Lx, path.Ly, path.Lz,fig,tube_radius=self.FilROut)
         else:
             # multiple filaments
             Coords = SectionFunction(*Secargs)
             for path in self.CCWpath:
                 for Position in Coords:
-                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilR)
+                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilROut)
             for path in self.CWpath:
                 for Position in Coords:
-                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilR)
+                    fig = PlotBundle.Plot_Path(np.array(path.Lx)+Position[0], np.array(path.Ly)+Position[1], path.Lz,fig,tube_radius=self.FilROut)
         if standalone:
             PlotBundle.show()
         else:

@@ -11,7 +11,7 @@ ERASE_LINE = '\x1b[2K'
 
 RotInertia = 0.001
 
-inPy_Version = "0.4a.0 - WIP"
+inPy_Version = "0.4a.1 - WIP"
 
 ##################################
 #		Python version info		 #

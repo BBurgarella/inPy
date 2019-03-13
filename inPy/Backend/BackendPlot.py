@@ -113,3 +113,6 @@ if backendDict["Plot"] == "Mayavi":
     def show():
         mlab.show()
         return 0
+
+if backendDict["Plot"] == None:
+    pass

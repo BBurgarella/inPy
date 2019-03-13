@@ -1,6 +1,13 @@
 Patch Notes V0.3
 ================
 
+2019 - 03 - 13
+  TODO
+    - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
+
+  - Updated and debugged the "toFile" method in abaqus scripting, an example file will be uploaded soon
+
+
 2019 - 03 - 04
 
   TODO

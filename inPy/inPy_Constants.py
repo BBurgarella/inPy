@@ -11,7 +11,7 @@ ERASE_LINE = '\x1b[2K'
 
 RotInertia = 0.001
 
-inPy_Version = "0.4a.1 - WIP"
+inPy_Version = "0.4a.2 - WIP"
 
 ##################################
 #		Python version info		 #
@@ -26,4 +26,5 @@ PyVersion =  sys.version_info[0]
 ######################
 
 #backendDict = {"Plot":"Matplotlib"}
-backendDict = {"Plot":"Mayavi"}
+#backendDict = {"Plot":"Mayavi"}
+backendDict = {"Plot":None}

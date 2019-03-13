@@ -24,6 +24,7 @@ the objective of this module is to simplify the interaction between python and a
 import numpy as np
 import copy
 import sys
+Mode = "Scripting"
 
 Error = False
 
@@ -90,6 +91,18 @@ try:
     import part
 except:
     print("Abaqus libraries not detected, inPy runs in standalone mode")
+    Mode="Standalone"
+    
+if Mode == "Scripting":
+    print("Abaqus libraries detected, inPy runs in scripting mode")
+    try:
+        from inPy.AbaqusScripting.inPy_Abq_Classes import *
+        from inPy.AbaqusScripting.inPy_Abq_Functions import *
+    except Exception as e:
+        Error = True
+        print("Error, impossible to load the inPy Abaqus Scripting submodule files")
+        print("The error is: \"{}\"".format(e))
+        
 
 if Error == False:
     print("inPy V{} imported".format(inPy_Version))

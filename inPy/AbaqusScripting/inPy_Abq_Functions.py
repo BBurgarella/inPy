@@ -23,7 +23,10 @@ def FrameGen(step, odb):
 ##        Functions       ##
 ############################
 
-def toFile(odb,stepName,FieldName, Filename,InitFrame=True):
+def toFile(odb,stepName,FieldName, Filename):
+
+    file = open(Filename,"w+")
+    FrameID = 0
 
     for frame in FrameGen(stepName, odb):
         FieldValues = frame.fieldOutputs[FieldName].values
@@ -31,22 +34,25 @@ def toFile(odb,stepName,FieldName, Filename,InitFrame=True):
         Curseur = 0
         count = 0
 
-        if InitFrame == True:
-            for Element in FieldValues:
-                print("{}/{}".format(count,1*len(FieldValues)))
-                Dict = {"InstanceName": str(Element.instance.name), "NodeLabel": Element.elementLabel, "X":Element.data[0], "Y":Element.data[1], "Z":Element.data[2]}
-                PrintArray.append(Dict)
-                count+=1
-                InitFrame = False
+        for Element in FieldValues:
+            print("{}/{}".format(count,1*len(FieldValues)))
+            if Element.instance is None:
+                Name = "Unknown name"
+            else:
+                Name = Element.instance.name
+            Dict = {"InstanceName": str(Name), "NodeLabel": Element.nodeLabel, "X":Element.data[0], "Y":Element.data[1], "Z":Element.data[2]}
+            PrintArray.append(Dict)
+            count+=1
+            InitFrame = False
 
 
-    if InitFrame == True:
-        file = open(Filename,"w+")
         file.write("------------------------------------------------------------------------------\n")
-        file.write("| Instance_Node | Node ID |    X(t = 0)    |    Y(t = 0)    |    Z(t = 0)    |\n")
+        file.write("| Instance_Node | Node ID |    X(F = {:^2})    |    Y(F = {:^2})    |    Z(F = {:^2})    |\n".format(FrameID,FrameID,FrameID))
         file.write("------------------------------------------------------------------------------\n")
-        for i in DictionaryList:
-            file.write("{:^16}  {:^9}  {:^15} {:^15}  {:^15} \n".format(i["InstanceName"],i["NodeLabel"],i["X"],i["Y"],i["Z"]))
+        for i in PrintArray:
+            file.write("{:^16}  {:^9}  {:^16} {:^16}  {:^16} \n".format(i["InstanceName"],i["NodeLabel"],i["X"],i["Y"],i["Z"]))
+        FrameID += 1
+
     file.close()
 
 

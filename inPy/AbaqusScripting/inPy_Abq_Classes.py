@@ -1,5 +1,5 @@
 from __init__ import *
-
+from inPy.Classes.FEM import node, BeamMesh
 
 class ASnode(node):
 

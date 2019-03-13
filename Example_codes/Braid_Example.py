@@ -29,14 +29,14 @@ if __name__ == "__main__":
     Pitch = 2*iP.PI
 
     # Number of strands in the braid
-    Nby = 2
+    Nby = 12
 
     # internal radius of the braid
     Dbyin = 3 #mm
 
     # Number of layers in each strand
     # Calculating following one diameter
-    R = 1
+    R = 3
 
     # Filament radius
     FilR = 0.0025 #mm
@@ -47,8 +47,11 @@ if __name__ == "__main__":
     # Sampling of the filaments
     PlaitSegments = 15
 
+    # Config
+    Config = ["Truss","Beam"]
+
     # Create a braid with the chosen parameters
-    Model.InstanceList.append(iP.Braid(Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R,Config =  ["Beam",None],Imposed_FilR = FilR))
+    Model.InstanceList.append(iP.Braid(Pitch,Nby,Dbyin,BraidThickness,PlaitSegments,R,Config = Config,Imposed_FilR = FilR))
 
     # Calculate the middle point of the braid to center the bar
     MiddlePointz = float((np.max(np.array(Model.InstanceList[-1].CCWpath[0].Lz))-np.min(np.array(Model.InstanceList[-1].CCWpath[0].Lz)))/2)
@@ -61,9 +64,9 @@ if __name__ == "__main__":
     # of density 1, with a 0.1x0.1mm square section and 10mm long
     Model.InstanceList.append(iP.SquareSectionBar("MiddleBar",1,(1.5875,1.5875,10),RotInertiaMatrix,CenterPoint = CenterPoint_Braid,RotVect = [0,0,0]))
 
-    #Model.Preview()
+    Model.Preview()
     choice = input("Generate the inp file with the current Structure (y/n) [n]?\n")
     if choice == "y":
-        File = open("Braid_Example.inp","w")
+        File = open("Braid_Coords.inp".format(R,str(Config[0])[0],str(Config[1])[0]),"w")
         File.write(Model.GenerateINP())
         File.close()
