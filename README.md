@@ -27,5 +27,6 @@ The scripting mode can also be used to access to the odb, get results and export
 Dependencies:
 - python 2.6+
 - numpy
-- abaqus 6.0+
 - matplotlib (or Mayavi)
+- ONLY FOR SCRIPTING MODE:
+  * abaqus 6.0+
