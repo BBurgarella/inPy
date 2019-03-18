@@ -67,7 +67,7 @@ class BeamMesh():
         self.Radius = Radius
         self.Elem0 = Elem0
 
-        # if the used mistakingly forgot to enter either an element list or a node list
+        # if the user mistakingly forgot to enter either an element list or a node list
         if len(NodeList)==0 and len(ElemList)==0:
             print("Erreur #01, please enter at least a list of nodes or a list of elements")
 

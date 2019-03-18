@@ -4,6 +4,17 @@ Patch Notes V0.3
 2019 - 03 - 13
   TODO
     - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
+    - Implement a generalization of toFile for cases such as stress where you can have more or
+    less fields that 3 (coord only has "X", "Y", and "Z")
+    - Add the possibility to enter a fieldOutput list in toFile to make multiple files with only 1 call
+
+  Done:
+    - Commented the example code for "toFile"
+    - debugged and stabilized the "toFile" function
+
+2019 - 03 - 13
+  TODO
+    - update the Draw methods of the Wired_Structures objects - 50%, braid is done, strand is not
 
   - Updated and debugged the "toFile" method in abaqus scripting, an example file will be uploaded soon
 
